@@ -1,0 +1,8 @@
+## This file contains a list of GitHub repositories to sync.
+## Each line should contain a repository name.
+## Blank lines, or those starting with #, are ignored.
+
+# main mods
+PurrplingMod
+PurrplingCore
+QuestFramework
