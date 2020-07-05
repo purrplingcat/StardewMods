@@ -1,4 +1,4 @@
-# StardewModsSolution
+# Stardew Mods Solution
 Main repo with the solution for my Stardew Valley mods
 
 ## Init repositories (projects)
