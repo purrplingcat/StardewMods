@@ -9,11 +9,13 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PurrplingCore", "PurrplingC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NpcAdventure", "PurrplingMod\NpcAdventure.csproj", "{EDCC181D-578C-49CD-AA39-EA2935C51781}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DialogueEmotes", "DialogueEmotes\DialogueEmotes.csproj", "{5354F641-3207-4305-82B8-A00EDC7D782E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DialogueEmotes", "DialogueEmotes\DialogueEmotes.csproj", "{5354F641-3207-4305-82B8-A00EDC7D782E}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		PurrplingCore\PurrplingCore.projitems*{6cec21fd-d0bd-49bb-bd73-736f3921d182}*SharedItemsImports = 5
 		PurrplingCore\PurrplingCore.projitems*{885ca7b8-4b93-4862-8f28-fddfa6cb57e4}*SharedItemsImports = 13
+		PurrplingCore\PurrplingCore.projitems*{edcc181d-578c-49cd-aa39-ea2935c51781}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
