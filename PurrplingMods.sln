@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestFramework", "QuestFram
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PurrplingCore", "PurrplingCore\PurrplingCore.shproj", "{885CA7B8-4B93-4862-8F28-FDDFA6CB57E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NpcAdventure", "PurrplingMod\NpcAdventure.csproj", "{EDCC181D-578C-49CD-AA39-EA2935C51781}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NpcAdventure", "NpcAdventures\NpcAdventure.csproj", "{EDCC181D-578C-49CD-AA39-EA2935C51781}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DialogueEmotes", "DialogueEmotes\DialogueEmotes.csproj", "{5354F641-3207-4305-82B8-A00EDC7D782E}"
 EndProject
