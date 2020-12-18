@@ -25,8 +25,8 @@ _ReSharper*/
 *.nuget.targets
 
 # Mod sources in separated repos are ignoted
+NpcAdventures/
 PurrplingMod/
 PurrplingCore/
 QuestFramework/
 DialogueEmotes/
-
