@@ -24,3 +24,9 @@ _ReSharper*/
 *.nuget.props
 *.nuget.targets
 
+# Mod sources in separated repos are ignoted
+PurrplingMod/
+PurrplingCore/
+QuestFramework/
+DialogueEmotes/
+
