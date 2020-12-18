@@ -1,0 +1,16 @@
+﻿{
+  "Name": "Quest Essentials",
+  "Author": "PurrplingCat",
+  "Version": "1.0.0-alpha",
+  "Description": "Adds new quest types and some extra stuff for quests",
+  "UniqueID": "PurrplingCat.QuestEssentials",
+  "EntryDll": "QuestEssentials.dll",
+  "MinimumApiVersion": "3.0.0",
+  "UpdateKeys": [],
+  "Dependencies": [
+    {
+      "UniqueID": "PurrplingCat.QuestFramework",
+      "MinimumVersion": "1.2.0-alpha"
+    }
+  ]
+}
