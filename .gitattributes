@@ -1,2 +1,6 @@
-* text eol=lf
-
+*.sh text eol=lf
+*.cs text eol=crlf
+*.csproj text eol=clrf
+*.sln text eol=crlf
+mod.list text eol=lf
+*.png binary
