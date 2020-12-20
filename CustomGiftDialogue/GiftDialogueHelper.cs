@@ -15,9 +15,12 @@ namespace CustomGiftDialogue
         /// <param name="obj">Gifted item recieved by this NPC</param>
         /// <param name="dialogue">A reaction dialogue text for this gifted item to this NPC</param>
         /// <returns>True if any gift reaction dialogue was found, otherwise false</returns>
-        public static bool FetchGiftReaction(NPC npc, SObject obj, out string dialogue)
+        public static bool FetchGiftReaction(NPC npc, SObject obj, out string dialogue, string suffix = "")
         {
-            string[] possibleKeys = new string[] { $"GiftReaction_{obj.Name.Replace(' ', '_')}", $"GiftReactionCategory_{obj.Category}" };
+            string[] possibleKeys = new string[] { 
+                $"GiftReaction_{obj.Name.Replace(' ', '_')}{suffix}",
+                $"GiftReactionCategory_{obj.Category}{suffix}",
+            };
 
             foreach (string dialogueKey in possibleKeys)
             {
