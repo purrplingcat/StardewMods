@@ -39,14 +39,36 @@ Add custom gift dialogues is very easy. Just add into game content `Characters/D
 
 - `GiftReaction_<ObjectName>` - Reaction dialogue for concrete gifted item. The `<ObjectName>` is a name of an object for which your NPC speaks a dialogue when this item was gifted to them. Spaces in the object name must be replaced with underscore `_` in the dialogue line key.
 - `GiftReactionCategory_<CategoryNumber>` - Reaction for all object of concrete category.
-- `GiftReaction_<ObjectName>_Birthday` - Custom reaction to an item if this item was gifted on NPC's birthday. Object name has the same rules like for general custom gift object reaction
-- `GiftReactionCategory_<CategoryNumber>_Birthday` - Same as for birthday object reaction, but for all objects in specified category
-- `GiftReaction_<ObjectName>_SecretSanta` - Custom reaction to an item if this item was gifted as secret santa during winterstar festival. Object name has the same rules like for general custom gift object reaction
-- `GiftReactionCategory_<CategoryNumber>_SecretSanta` - Same as for secret santa object reaction, but for all objects in specified category
+- `GiftReactionPreserved_<preserveType>` - Reaction to a preserved item (if it is preserved) by the preservation type (or any). Available preservation types:
+```
+Any,
+Wine,
+Jelly,
+Pickle,
+Juice,
+Roe,
+AgedRoe
+```
+- `GiftReactionHone_<preserveType>` - Reaction to a honey (if item is honey) by the honey type (or any). Available honey types
+```
+Any,
+Wild,
+Poppy,
+Tulip,
+SummerSpangle,
+FairyRose,
+BlueJazz
+```
+
+Also after key above you can add these suffixes:
+
+- `_Birthday` - Custom reaction to an item if this item was gifted on NPC's birthday.
+- `_SecretSanta` - Custom reaction to an item if this item was gifted as secret santa during winterstar festival.
 
 
 The `<NpcName>` (in the content asset name) is a name of NPC for which you want add custom gift reaction dialogue lines.
 Also you can add some alternate lines for gifted item by adding suffix `~<number>` after the dialogue key. (Works only for gift reaction dialogues)
+Random suffix can be combined with reaction dialogue suffix like `_birthday` and etc.
 
 **NOTE:** Mod seeks for concrete gift object dialogue first, then for an object category. That means if you specify reaction for seeds category (id number -74, dialogue key `GiftReactionCategory_-74`) and for object *Parsnip Seeds* (`GiftReaction_Parsnip_Seeds`), then if you gift Parsnip Seeds to your concrete NPC, then you see dialogue for *Pasrsnip Seeds*. If you gift other seeds, you see dialogue for seeds category.
 
@@ -64,7 +86,8 @@ Most simple way how to add custom gift reaction dialogues is do it with [Content
         "GiftReaction_Chocolate_Cake": "I love chocolate cake, thank you so much, @!$h",
         "GiftReaction_Chocolate_Cake~1": "How are you know I'm hungry? This cake looks delicious, Thank you!$h",
         "GiftReaction_Chocolate_Cake~2": "Looks really tasty, thanks$l",
-        "GiftReaction_Chocolate_Cake~3": "It's shame I wanted to eat a rock for today's lunch.#$b#Just kidding, it looks really delicious! Thank you, @.$h"
+        "GiftReaction_Chocolate_Cake~3": "It's shame I wanted to eat a rock for today's lunch.#$b#Just kidding, it looks really delicious! Thank you, @.$h",
+        "GiftReaction_Chocolate_Cake_Birthday": "This is the best birthday gift, really!$h",
       }
     },
     {
@@ -73,7 +96,8 @@ Most simple way how to add custom gift reaction dialogues is do it with [Content
       "Target": "Characters/Dialogue/Lewis",
       "Entries": {
         "GiftReaction_Parsnip_Seeds": "A dialogue for parsnip seeds",
-        "GiftReactionCategory_-74": "A dialogue for general seeds" // -74 is seeds category id
+        "GiftReactionCategory_-74": "A dialogue for general seeds", // -74 is seeds category id
+        "GiftReactionPreserved_Wine": "A wine reaction text."
       }
     }
   ]
