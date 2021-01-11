@@ -20,6 +20,10 @@ namespace CustomGiftDialogue
             string[] possibleKeys = new string[] { 
                 $"GiftReaction_{obj.Name.Replace(' ', '_')}{suffix}",
                 $"GiftReactionCategory_{obj.Category}{suffix}",
+                $"GiftReactionHoney_{obj.honeyType.Value}{suffix}",
+                $"GiftReactionHoney_{(obj.honeyType.Value.HasValue ? "Any" : "")}{suffix}",
+                $"GiftReactionPreserved_{obj.preserve.Value}{suffix}",
+                $"GiftReactionPreserved_{(obj.preserve.Value.HasValue ? "Any" : "")}{suffix}",
             };
 
             foreach (string dialogueKey in possibleKeys)
