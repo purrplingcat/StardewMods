@@ -11,6 +11,7 @@ This mod allows define custom gift reaction dialogues for concrete gift items. A
 
 ## Compatibility
 
+- Compatible with Stardew Valley 1.5 (both singleplayer and multiplayer)
 - Compatible with most SMAPI mods and Content Patcher
 - Compatible with JSON Assets
 
