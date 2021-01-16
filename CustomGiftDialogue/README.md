@@ -52,7 +52,7 @@ Juice,
 Roe,
 AgedRoe
 ```
-- `GiftReactionHone_<preserveType>` - Reaction to a honey (if item is honey) by the honey type (or any). Available honey types
+- `GiftReactionHoney_<preserveType>` - Reaction to a honey (if item is honey) by the honey type (or any). Available honey types
 ```
 Any,
 Wild,
