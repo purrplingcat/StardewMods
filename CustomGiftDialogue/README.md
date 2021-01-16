@@ -35,6 +35,8 @@ You can configure this mod via `config.json` file in the mod folder:
 
 ## Create gift reaction dialogues
 
+**Gift tastes for NPCs is needed to in `Data/NPCGiftTastes`. This mod changes only the dialogue of the reaction, but not if the NPC likes or dislikes an item. Also this mod doesn't affect friendship points. This is still in "hands" of NPCGiftTastes asset in SDV!**
+
 Add custom gift dialogues is very easy. Just add into game content `Characters/Dialogue/<NpcName>` and add lines witch these possible keys:
 
 - `GiftReaction_<ObjectName>` - Reaction dialogue for concrete gifted item. The `<ObjectName>` is a name of an object for which your NPC speaks a dialogue when this item was gifted to them. Spaces in the object name must be replaced with underscore `_` in the dialogue line key.
@@ -64,7 +66,6 @@ Also after key above you can add these suffixes:
 
 - `_Birthday` - Custom reaction to an item if this item was gifted on NPC's birthday.
 - `_SecretSanta` - Custom reaction to an item if this item was gifted as secret santa during winterstar festival.
-
 
 The `<NpcName>` (in the content asset name) is a name of NPC for which you want add custom gift reaction dialogue lines.
 Also you can add some alternate lines for gifted item by adding suffix `~<number>` after the dialogue key. (Works only for gift reaction dialogues)
@@ -107,5 +108,3 @@ Most simple way how to add custom gift reaction dialogues is do it with [Content
 ---
 
 This mod is made with :heart: by PurrplingCat. Thanks to Lemurkat for an idea on [StardewModders mod ideas](https://github.com/StardewModders/mod-ideas/issues/611).
-
-
