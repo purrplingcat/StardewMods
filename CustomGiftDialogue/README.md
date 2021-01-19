@@ -106,6 +106,8 @@ Most simple way how to add custom gift reaction dialogues is do it with [Content
 }
 ```
 
+**Don't forget add `PurrplingCat.CustomGiftDialogue` as dependency for your content pack which adds custom gift reaction dialogues.**
+
 ---
 
 This mod is made with :heart: by PurrplingCat. Thanks to Lemurkat for an idea on [StardewModders mod ideas](https://github.com/StardewModders/mod-ideas/issues/611).
