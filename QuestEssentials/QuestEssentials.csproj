@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.2.2" />
     <!-- <Reference Include="PurrplingCore" HintPath="$(GamePath)\Mods\PurrplingCore\PurrplingCore.dll" Private="false" /> -->
     <Reference Include="QuestFramework" HintPath="$(GamePath)\Mods\QuestFramework\QuestFramework.dll" Private="false" />

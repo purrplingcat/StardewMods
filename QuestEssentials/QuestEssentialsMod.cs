@@ -7,6 +7,8 @@ using QuestFramework.Api;
 using QuestEssentials.Quests;
 using QuestEssentials.Framework;
 using Patches = QuestEssentials.Framework.Patches;
+using System.Collections.Generic;
+using System;
 
 namespace QuestEssentials
 {
@@ -14,12 +16,14 @@ namespace QuestEssentials
     public class QuestEssentialsMod : Mod
     {
         internal static IMonitor ModMonitor { get; private set; }
+        internal static IModHelper ModHelper { get; private set; }
 
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
             ModMonitor = this.Monitor;
+            ModHelper = helper;
             helper.Events.GameLoop.GameLaunched += this.GameLoop_GameLaunched;
             helper.Events.GameLoop.DayEnding += this.GameLoop_DayEnding;
             helper.Events.Display.MenuChanged += this.Display_MenuChanged;
@@ -69,6 +73,7 @@ namespace QuestEssentials
             questApi.ExposeQuestType<SellItemQuest>("SellItem");
             questApi.ExposeQuestType<EarnMoneyQuest>("EarnMoney");
             questApi.ExposeQuestType<TalkQuest>("Talk");
+            questApi.ExposeQuestType<StoryQuest>("Story");
         }
 
         /*private void OnSellItem(object sender, PurrplingCore.Events.SellItemArgs e)
