@@ -1,7 +1,7 @@
 ﻿{
   "Name": "Quest Essentials",
   "Author": "PurrplingCat",
-  "Version": "1.0.0-alpha",
+  "Version": "1.1.0-alpha",
   "Description": "Adds new quest types and more powerfull tools for Quest Framework",
   "UniqueID": "PurrplingCat.QuestEssentials",
   "EntryDll": "QuestEssentials.dll",

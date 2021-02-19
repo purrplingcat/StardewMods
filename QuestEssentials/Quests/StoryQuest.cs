@@ -4,14 +4,25 @@ using QuestFramework.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using QuestEssentials.Quests.Story;
+using StardewModdingAPI;
+using System.Text;
 
 namespace QuestEssentials.Quests
 {
-    public class StoryQuest : CustomQuest<Dictionary<string, int>>
+    public class StoryQuest : CustomQuest<StoryQuest.StoryQuestState>
     {
+        public class StoryQuestState
+        {
+            public bool complete = false;
+            public Dictionary<string, int> progress;
+
+            public StoryQuestState()
+            {
+                this.progress = new Dictionary<string, int>();
+            }
+        }
+
         public List<StoryQuestTask> Tasks { get; set; }
 
         protected override void OnInitialize()
@@ -35,7 +46,10 @@ namespace QuestEssentials.Quests
 
         private void OnGameUpdateTicked(object sender, StardewModdingAPI.Events.UpdateTickedEventArgs e)
         {
-            if (!this.Tasks.Any(t => t.IsRegistered() && !t.IsCompleted()))
+            if (!Context.IsWorldReady || !Context.CanPlayerMove)
+                return;
+
+            if (this.State.complete && this.IsInQuestLog() && !this.GetInQuestLog().completed.Value)
             {
                 this.Complete();
             }
@@ -57,8 +71,38 @@ namespace QuestEssentials.Quests
             base.OnCompletionCheck(completionMessage);
         }
 
+        protected override void UpdateCurrentObjectives(List<CustomQuestObjective> currentObjectives)
+        {
+            currentObjectives.Clear();
+
+            if (this.Tasks != null) {
+                foreach (var task in this.Tasks)
+                {
+                    StringBuilder text = new StringBuilder(task.Description);
+
+                    if (task.Goal > 1)
+                    {
+                        text.Append($" ({task.Current}/{task.Goal})");
+                    }
+
+                    currentObjectives.Add(new CustomQuestObjective(task.Name, text.ToString())
+                    {
+                        IsCompleted = task.IsCompleted()
+                    });
+                }
+            }
+        }
+
+        public void CheckQuestCompletion()
+        {
+            this.State.complete = !this.Tasks.Any(t => t.IsRegistered() && !t.IsCompleted());
+        }
+
         private void CheckTasks(StoryMessage storyMessage)
         {
+            if (this.Tasks == null)
+                return;
+
             foreach (var task in this.Tasks)
             {
                 if (!task.IsRegistered())

@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json;
+using QuestEssentials.Framework;
+using QuestEssentials.Quests.Story.Tasks;
 using QuestFramework.Extensions;
+using StardewValley;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +11,17 @@ using System.Threading.Tasks;
 
 namespace QuestEssentials.Quests.Story
 {
-    public class StoryQuestTask
+    [JsonConverter(typeof(StoryQuestTaskConverter))]
+    public abstract class StoryQuestTask
     {
+        internal static readonly Dictionary<string, Type> knownTypes;
         private StoryQuest _quest;
+        protected bool _complete;
 
         public string Name { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
         public Dictionary<string, string> When { get; set; }
-        public Dictionary<string, string> Data { get; set; }
-
         public int Goal { get; set; } = 1;
 
         [JsonIgnore]
@@ -25,25 +29,34 @@ namespace QuestEssentials.Quests.Story
         {
             get
             {
-                if (this._quest == null)
+                if (this._quest == null || this._quest.State == null)
                     return 0;
 
-                if (!this._quest.State.ContainsKey(this.Name))
+                if (!this._quest.State.progress.ContainsKey(this.Name))
                 {
-                    this._quest.State[this.Name] = 0;
+                    this._quest.State.progress[this.Name] = 0;
                     this._quest.Sync();
                 }
 
-                return this._quest.State[this.Name];
+                return this._quest.State.progress[this.Name];
             }
             set
             {
-                if (this._quest != null)
+                if (this._quest != null || this._quest.State == null)
                 {
-                    this._quest.State[this.Name] = value;
+                    this._quest.State.progress[this.Name] = value;
                     this._quest.Sync();
+                    this.OnCurrentCountChanged();
                 }
             }
+        }
+
+        static StoryQuestTask()
+        {
+            knownTypes = new Dictionary<string, Type>();
+
+            RegisterTaskType<BasicTask>("Basic");
+            RegisterTaskType<EnterSpotTask>("EnterSpot");
         }
 
         protected bool IsWhenMatched()
@@ -59,7 +72,7 @@ namespace QuestEssentials.Quests.Story
 
         public bool IsRegistered()
         {
-            return this._quest != null;
+            return this._quest != null && this._quest.State != null;
         }
 
         public void Increment(int amount)
@@ -69,7 +82,7 @@ namespace QuestEssentials.Quests.Story
 
         public bool IsCompleted()
         {
-            return this.Current >= this.Goal;
+            return this._complete;
         }
 
         public virtual void Load()
@@ -78,16 +91,79 @@ namespace QuestEssentials.Quests.Story
 
         public virtual void Register(StoryQuest quest)
         {
+            if (quest.State == null)
+            {
+                quest.Reset();
+            }
+
             this._quest = quest;
             this.Load();
         }
 
-        public virtual void OnCompletionCheck(StoryMessage message)
+        protected virtual void OnCurrentCountChanged()
         {
-            if (this.Type == message.Trigger && !this.IsCompleted() && this.IsWhenMatched())
+            this.CheckCompletion();
+        }
+
+        protected virtual void OnCompletion()
+        {
+        }
+
+        public abstract void OnCompletionCheck(StoryMessage message);
+
+        public virtual void CheckCompletion(bool playSound = true)
+        {
+            if (!this.IsRegistered())
+                return;
+
+            bool wasJustCompleted = false;
+
+            if (this.Current >= this.Goal && !this.IsCompleted())
             {
-                this.Increment(1);
+                wasJustCompleted = true;
+                this._complete = true;
+                this.OnCompletion();
             }
+
+            if (this._quest != null)
+            {
+                this._quest.CheckQuestCompletion();
+                if (playSound && wasJustCompleted && !this._quest.State.complete)
+                {
+                    Game1.playSound("jingle1");
+                }
+            }
+        }
+
+        public void ForceComplete(bool playSound = true)
+        {
+            this.Current = this.Goal;
+        }
+
+        /// <summary>
+        /// Register a class for deserialize for specified type name
+        /// Unknown type names are deserialized as <see cref="StoryQuestTask"/> class type.
+        /// </summary>
+        /// <typeparam name="T">Task class type</typeparam>
+        /// <param name="name">Name of task type</param>
+        public static void RegisterTaskType<T>(string name) where T : StoryQuestTask
+        {
+            knownTypes.Add(name, typeof(T));
+        }
+
+        public static bool IsKnownTaskType(string name)
+        {
+            return knownTypes.ContainsKey(name);
+        }
+
+        public static bool IsKnownTaskType(Type type)
+        {
+            return knownTypes.ContainsValue(type);
+        }
+
+        public static bool IsKnownTaskType<T>() where T : StoryQuestTask
+        {
+            return knownTypes.ContainsValue(typeof(T));
         }
     }
 }

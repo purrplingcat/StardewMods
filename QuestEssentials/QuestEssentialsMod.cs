@@ -9,6 +9,9 @@ using QuestEssentials.Framework;
 using Patches = QuestEssentials.Framework.Patches;
 using System.Collections.Generic;
 using System;
+using Microsoft.Xna.Framework;
+using QuestEssentials.Quests.Story;
+using QuestEssentials.Quests.Story.Messages;
 
 namespace QuestEssentials
 {
@@ -17,6 +20,7 @@ namespace QuestEssentials
     {
         internal static IMonitor ModMonitor { get; private set; }
         internal static IModHelper ModHelper { get; private set; }
+        internal static IManagedQuestApi QuestApi { get; private set; }
 
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -26,6 +30,8 @@ namespace QuestEssentials
             ModHelper = helper;
             helper.Events.GameLoop.GameLaunched += this.GameLoop_GameLaunched;
             helper.Events.GameLoop.DayEnding += this.GameLoop_DayEnding;
+            helper.Events.GameLoop.UpdateTicked += this.GameLoop_UpdateTicked;
+            helper.Events.Player.Warped += this.Player_Warped;
             helper.Events.Display.MenuChanged += this.Display_MenuChanged;
 
             var harmony = HarmonyInstance.Create(this.ModManifest.UniqueID);
@@ -42,6 +48,39 @@ namespace QuestEssentials
                 original: AccessTools.Property(typeof(Farmer), nameof(Farmer.Money)).GetSetMethod(),
                 prefix: new HarmonyMethod(typeof(Patches), nameof(Patches.Before_set_Money))
             );
+        }
+
+        private void Player_Warped(object sender, WarpedEventArgs e)
+        {
+            if (!Context.IsWorldReady)
+                return;
+
+            QuestApi.CheckForQuestComplete<StoryQuest>(
+                new PlayerMovedMessage(
+                    location: e.NewLocation,
+                    position: e.Player.Position,
+                    tilePosition: e.Player.getTileLocationPoint(),
+                    trigger: "PlayerWarped"));
+        }
+
+        private GameLocation _lastLocation;
+        private Point _lastTilePosition;
+        private void GameLoop_UpdateTicked(object sender, UpdateTickedEventArgs e)
+        {
+            if (!Context.IsWorldReady || !Context.CanPlayerMove || Game1.player.isMoving())
+                return;
+
+            if (this._lastLocation != Game1.player.currentLocation || this._lastTilePosition != Game1.player.getTileLocationPoint())
+            {
+                this._lastLocation = Game1.player.currentLocation;
+                this._lastTilePosition = Game1.player.getTileLocationPoint();
+
+                QuestApi.CheckForQuestComplete<StoryQuest>(
+                    new PlayerMovedMessage(
+                        location: this._lastLocation,
+                        position: Game1.player.getStandingPosition(),
+                        tilePosition: this._lastTilePosition));
+            }
         }
 
         private void Display_MenuChanged(object sender, MenuChangedEventArgs e)
@@ -74,6 +113,8 @@ namespace QuestEssentials
             questApi.ExposeQuestType<EarnMoneyQuest>("EarnMoney");
             questApi.ExposeQuestType<TalkQuest>("Talk");
             questApi.ExposeQuestType<StoryQuest>("Story");
+
+            QuestApi = questApi;
         }
 
         /*private void OnSellItem(object sender, PurrplingCore.Events.SellItemArgs e)
