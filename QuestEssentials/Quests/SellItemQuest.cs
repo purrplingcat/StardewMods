@@ -1,33 +1,42 @@
-﻿using QuestFramework.Quests;
+﻿using QuestEssentials.Messages;
+using QuestFramework.Extensions;
+using QuestFramework.Quests;
 using QuestFramework.Quests.State;
 using StardewValley;
 
 namespace QuestEssentials.Quests
 {
-    public class SellItemQuest : CustomQuest<ActiveState>, ITriggerLoader, IQuestObserver
+    public class SellItemQuest : CustomQuest<ActiveState>, ITriggerLoader, IQuestInfoUpdater
     {
         public int ItemToSellIndex { get; set; }
+        public string ItemName { get; set; }
         public int Count { get; set; } = 1;
+        public bool OnlyShip { get; set; } = false;
+
 
         [ActiveState]
         public ActiveStateField<int> ItemsSold { get; } = new ActiveStateField<int>(0);
 
-        public virtual bool CheckIfComplete(IQuestInfo questData, ICompletionArgs completion)
+        public override void OnCompletionCheck(object completionMessage)
         {
-            if (questData.VanillaQuest.completed.Value
-                || completion.String != "sell"
-                || completion.Item?.ParentSheetIndex != this.ItemToSellIndex
-                || completion.Number1 <= 0)
+            if (completionMessage is SellItemMessage sellMessage)
             {
-                return false;
+                if (sellMessage.Item.Stack <= 0)
+                    return;
+
+                if (this.OnlyShip && !sellMessage.Ship)
+                    return;
+
+                if ((this.ItemName != null && this.ItemName == sellMessage.Item.Name) || sellMessage.Item.ParentSheetIndex == this.ItemToSellIndex)
+                {
+                    this.ItemsSold.Value += sellMessage.Item.Stack;
+                }
+
+                if (this.ItemsSold.Value >= this.Count)
+                    this.Complete();
             }
 
-            this.ItemsSold.Value += completion.Number1;
-
-            if (this.ItemsSold.Value >= this.Count)
-                return true;
-
-            return false;
+            base.OnCompletionCheck(completionMessage);
         }
 
         public void LoadTrigger(string triggerData)

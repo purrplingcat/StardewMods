@@ -14,14 +14,7 @@ namespace QuestEssentials.Quests.Story
             this.Trigger = trigger;
         }
 
-        public StoryMessage(string trigger, object data)
-        {
-            this.Trigger = trigger;
-            this.Data = JsonConvert.SerializeObject(data);
-        }
-
         public string Trigger { get; }
-        public string Data { get; }
 
         public override string ToString()
         {

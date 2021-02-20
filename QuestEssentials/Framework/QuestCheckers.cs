@@ -1,4 +1,6 @@
-﻿using QuestEssentials.Quests;
+﻿using QuestEssentials.Messages;
+using QuestEssentials.Quests;
+using QuestFramework.Api;
 using QuestFramework.Extensions;
 using QuestFramework.Quests;
 using StardewValley;
@@ -8,11 +10,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SObject = StardewValley.Object;
 
 namespace QuestEssentials.Framework
 {
     internal static class QuestCheckers
     {
+        private static IManagedQuestApi QuestApi => QuestEssentialsMod.QuestApi;
+
         private static IEnumerable<Quest> GetQuestsForCheck<TQuest>() where TQuest : CustomQuest
         {
             return Game1.player
@@ -22,29 +27,20 @@ namespace QuestEssentials.Framework
 
         public static void CheckEarnQuests(int earnedMoney)
         {
-            foreach (var quest in GetQuestsForCheck<EarnMoneyQuest>())
-            {
-                quest.checkIfComplete(null, earnedMoney, -2, null, "money");
-            }
+            if (earnedMoney < 0)
+                return;
+
+            QuestApi.CheckForQuestComplete(new EarnMoneyMessage(earnedMoney));
         }
 
-        public static void CheckSellQuests(ISalable itemToSell)
+        public static void CheckSellQuests(Item itemToSell, int price, bool ship = false)
         {
-            foreach (var quest in GetQuestsForCheck<SellItemQuest>())
-            {
-                quest.checkIfComplete(null, itemToSell.Stack, -2, itemToSell as Item, "sell");
-            }
+            QuestApi.CheckForQuestComplete(new SellItemMessage(itemToSell, price, ship));
         }
 
-        public static void CheckTalkQuests(NPC currentSpeaker)
+        public static void CheckTalkQuests(Farmer farmer, NPC currentSpeaker)
         {
-            var talkQuests = GetQuestsForCheck<TalkQuest>()
-                .Where(q => string.IsNullOrEmpty(q.AsManagedQuest().ReactionText));
-
-            foreach (var quest in talkQuests)
-            {
-                quest.checkIfComplete(currentSpeaker, -1, -2, null, "talk");
-            }
+            QuestApi.CheckForQuestComplete(new TalkMessage(farmer, currentSpeaker));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using QuestEssentials.Quests.Story;
 using StardewValley;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuestEssentials.Quests.Story.Messages
+namespace QuestEssentials.Quests.Messages
 {
     public class PlayerMovedMessage : StoryMessage
     {

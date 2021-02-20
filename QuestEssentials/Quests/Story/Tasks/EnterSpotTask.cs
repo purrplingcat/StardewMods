@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using QuestEssentials.Framework;
-using QuestEssentials.Quests.Story.Messages;
+using QuestEssentials.Quests.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;

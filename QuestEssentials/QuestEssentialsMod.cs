@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System;
 using Microsoft.Xna.Framework;
 using QuestEssentials.Quests.Story;
-using QuestEssentials.Quests.Story.Messages;
+using QuestEssentials.Quests.Messages;
 
 namespace QuestEssentials
 {
@@ -47,6 +47,10 @@ namespace QuestEssentials
             harmony.Patch(
                 original: AccessTools.Property(typeof(Farmer), nameof(Farmer.Money)).GetSetMethod(),
                 prefix: new HarmonyMethod(typeof(Patches), nameof(Patches.Before_set_Money))
+            );
+            harmony.Patch(
+                original: AccessTools.Method(typeof(NPC), nameof(NPC.hasTemporaryMessageAvailable)),
+                postfix: new HarmonyMethod(typeof(Patches), nameof(Patches.After_hasTemporaryMessageAvailable))
             );
         }
 
@@ -87,15 +91,19 @@ namespace QuestEssentials
         {
             if (e.NewMenu is DialogueBox)
             {
-                QuestCheckers.CheckTalkQuests(Game1.currentSpeaker);
+                QuestCheckers.CheckTalkQuests(Game1.player, Game1.currentSpeaker);
             }
         }
 
         private void GameLoop_DayEnding(object sender, DayEndingEventArgs e)
         {
             // Check item sell quests for shipping bin items
-            foreach (ISalable item in Game1.getFarm().getShippingBin(Game1.player))
-                QuestCheckers.CheckSellQuests(item);
+            foreach (Item item in Game1.getFarm().getShippingBin(Game1.player))
+            {
+                int itemPrice = item is StardewValley.Object obj ? obj.sellToStorePrice(-1L) : item.salePrice();
+
+                QuestCheckers.CheckSellQuests(item, itemPrice * item.Stack, ship: true);
+            }
         }
 
         private void GameLoop_GameLaunched(object sender, GameLaunchedEventArgs e)
