@@ -58,6 +58,7 @@ namespace QuestEssentials.Tasks
 
             RegisterTaskType<BasicTask>("Basic");
             RegisterTaskType<EnterSpotTask>("EnterSpot");
+            RegisterTaskType<CollectTask>("Collect");
         }
 
         protected bool IsWhenMatched()
