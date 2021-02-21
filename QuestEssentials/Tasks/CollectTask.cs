@@ -1,4 +1,5 @@
 ﻿using QuestEssentials.Messages;
+using StardewValley.Quests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace QuestEssentials.Tasks
 
         public override bool OnCheckProgress(StoryMessage message)
         {
-            if (message is VanillaCompletionMessage completionArgs && completionArgs.CompletionType == 10 && completionArgs.Item != null)
+            if (message is VanillaCompletionMessage completionArgs && completionArgs.CompletionType == Quest.type_resource && completionArgs.Item != null)
             {
                 bool fail = false;
 

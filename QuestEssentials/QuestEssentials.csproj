@@ -20,8 +20,4 @@
     <Reference Include="QuestFramework" HintPath="$(GamePath)\Mods\QuestFramework\QuestFramework.dll" Private="false" Condition="!Exists('$(SolutionDir)\QuestFramework\QuestFramework.csproj')" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Quests\Story\" />
-  </ItemGroup>
-
 </Project>
