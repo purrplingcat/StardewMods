@@ -18,7 +18,7 @@ namespace QuestEssentials.Tasks
             {
                 bool fail = false;
 
-                if (this.AcceptedContextTags == null)
+                if (this.AcceptedContextTags == null || !this.IsWhenMatched())
                     return false;
 
                 foreach (string tags in this.AcceptedContextTags.Split(','))
