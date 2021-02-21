@@ -23,7 +23,7 @@ namespace QuestEssentials.Tasks
         public int Goal { get; set; } = 1;
 
         [JsonIgnore]
-        public int Current
+        public int CurrentCount
         {
             get
             {
@@ -42,6 +42,9 @@ namespace QuestEssentials.Tasks
             {
                 if (this._quest != null || this._quest.State == null)
                 {
+                    if (this._quest.State.progress[this.Name] == value)
+                        return;
+
                     this._quest.State.progress[this.Name] = value;
                     this._quest.Sync();
                     this.OnCurrentCountChanged();
@@ -73,9 +76,14 @@ namespace QuestEssentials.Tasks
             return this._quest != null && this._quest.State != null;
         }
 
-        public void Increment(int amount)
+        public void IncrementCount(int amount)
         {
-            this.Current += amount;
+            int newCurrent = this.CurrentCount + amount;
+
+            if (newCurrent > this.Goal)
+                this.CurrentCount = this.Goal;
+            else
+                this.CurrentCount = newCurrent;
         }
 
         public bool IsCompleted()
@@ -116,7 +124,7 @@ namespace QuestEssentials.Tasks
 
             bool wasJustCompleted = false;
 
-            if (this.Current >= this.Goal && !this.IsCompleted())
+            if (this.CurrentCount >= this.Goal && !this.IsCompleted())
             {
                 wasJustCompleted = true;
                 this._complete = true;
@@ -137,7 +145,7 @@ namespace QuestEssentials.Tasks
 
         public void ForceComplete(bool playSound = true)
         {
-            this.Current = this.Goal;
+            this.CurrentCount = this.Goal;
         }
 
         /// <summary>

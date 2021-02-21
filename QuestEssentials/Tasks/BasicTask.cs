@@ -10,7 +10,7 @@ namespace QuestEssentials.Tasks
         {
             if (!this.IsCompleted() && this.Trigger == message.Trigger && this.IsWhenMatched())
             {
-                this.Increment(1);
+                this.IncrementCount(1);
 
                 return true;
             }

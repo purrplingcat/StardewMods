@@ -87,7 +87,7 @@ namespace QuestEssentials.Quests
 
                     if (task.Goal > 1)
                     {
-                        text.Append($" ({task.Current}/{task.Goal})");
+                        text.Append($" ({task.CurrentCount}/{task.Goal})");
                     }
 
                     currentObjectives.Add(new CustomQuestObjective(task.Name, text.ToString())
