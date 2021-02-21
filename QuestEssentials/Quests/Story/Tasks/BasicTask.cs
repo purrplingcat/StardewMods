@@ -11,12 +11,16 @@ namespace QuestEssentials.Quests.Story.Tasks
     {
         public string Trigger { get; set; }
 
-        public override void OnCompletionCheck(StoryMessage message)
+        public override bool OnCheckProgress(StoryMessage message)
         {
             if (!this.IsCompleted() && this.Trigger == message.Trigger && this.IsWhenMatched())
             {
                 this.Increment(1);
+
+                return true;
             }
+
+            return false;
         }
     }
 }

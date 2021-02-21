@@ -17,15 +17,15 @@ namespace QuestEssentials.Quests
         [ActiveState]
         public ActiveStateField<int> ItemsSold { get; } = new ActiveStateField<int>(0);
 
-        public override void OnCompletionCheck(object completionMessage)
+        public override bool OnCompletionCheck(object completionMessage)
         {
             if (completionMessage is SellItemMessage sellMessage)
             {
                 if (sellMessage.Item.Stack <= 0)
-                    return;
+                    return false;
 
                 if (this.OnlyShip && !sellMessage.Ship)
-                    return;
+                    return false;
 
                 if ((this.ItemName != null && this.ItemName == sellMessage.Item.Name) || sellMessage.Item.ParentSheetIndex == this.ItemToSellIndex)
                 {
@@ -33,10 +33,14 @@ namespace QuestEssentials.Quests
                 }
 
                 if (this.ItemsSold.Value >= this.Count)
+                {
                     this.Complete();
+
+                    return true;
+                }
             }
 
-            base.OnCompletionCheck(completionMessage);
+            return false;
         }
 
         public void LoadTrigger(string triggerData)

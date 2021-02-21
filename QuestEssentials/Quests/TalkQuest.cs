@@ -15,20 +15,22 @@ namespace QuestEssentials.Quests
     {
         public string TalkTo { get; set; }
 
-        public override void OnCompletionCheck(object completionMessage)
+        public override bool OnCompletionCheck(object completionMessage)
         {
             if (completionMessage is ITalkMessage talkMessage)
             {
                 if (!this.IsRelevantMessage(talkMessage))
-                    return;
+                    return false;
 
                 if (Game1.activeClickableMenu is DialogueBox && Game1.currentSpeaker == talkMessage.Npc)
                 {
                     this.Complete();
+
+                    return true;
                 }
             }
 
-            base.OnCompletionCheck(completionMessage);
+            return false;
         }
 
         private bool IsRelevantMessage(ITalkMessage talkMessage)

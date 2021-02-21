@@ -109,12 +109,12 @@ namespace QuestEssentials.Quests.Story
         {
         }
 
-        public abstract void OnCompletionCheck(StoryMessage message);
+        public abstract bool OnCheckProgress(StoryMessage message);
 
-        public virtual void CheckCompletion(bool playSound = true)
+        public virtual bool CheckCompletion(bool playSound = true)
         {
             if (!this.IsRegistered())
-                return;
+                return false;
 
             bool wasJustCompleted = false;
 
@@ -133,6 +133,8 @@ namespace QuestEssentials.Quests.Story
                     Game1.playSound("jingle1");
                 }
             }
+
+            return wasJustCompleted;
         }
 
         public void ForceComplete(bool playSound = true)

@@ -18,17 +18,21 @@ namespace QuestEssentials.Quests
         [ActiveState]
         public ActiveStateField<int> Earned { get; } = new ActiveStateField<int>(0);
 
-        public override void OnCompletionCheck(object completionMessage)
+        public override bool OnCompletionCheck(object completionMessage)
         {
             if (completionMessage is EarnMoneyMessage earnMessage)
             {
                 this.Earned.Value += earnMessage.Amount;
 
                 if (this.Earned.Value >= this.Goal)
+                {
                     this.Complete();
+
+                    return true;
+                }
             }
 
-            base.OnCompletionCheck(completionMessage);
+            return false;
         }
 
         public void LoadTrigger(string triggerData)

@@ -7,6 +7,7 @@ using System.Linq;
 using QuestEssentials.Quests.Story;
 using StardewModdingAPI;
 using System.Text;
+using QuestEssentials.Messages;
 
 namespace QuestEssentials.Quests
 {
@@ -61,14 +62,18 @@ namespace QuestEssentials.Quests
             base.OnRegister();
         }
 
-        public override void OnCompletionCheck(object completionMessage)
+        public override bool OnCompletionCheck(object completionMessage)
         {
             if (completionMessage is StoryMessage storyMessage)
             {
-                this.CheckTasks(storyMessage);
+                return this.CheckTasks(storyMessage);
+            } 
+            else if (completionMessage is ICompletionArgs completionArgs)
+            {
+                return this.CheckTasks(new VanillaCompletionMessage(completionArgs));
             }
 
-            base.OnCompletionCheck(completionMessage);
+            return false;
         }
 
         protected override void UpdateCurrentObjectives(List<CustomQuestObjective> currentObjectives)
@@ -98,18 +103,21 @@ namespace QuestEssentials.Quests
             this.State.complete = !this.Tasks.Any(t => t.IsRegistered() && !t.IsCompleted());
         }
 
-        private void CheckTasks(StoryMessage storyMessage)
+        private bool CheckTasks(StoryMessage storyMessage)
         {
             if (this.Tasks == null)
-                return;
+                return false;
 
+            bool worked = false;
             foreach (var task in this.Tasks)
             {
                 if (!task.IsRegistered())
                     continue;
 
-                task.OnCompletionCheck(storyMessage);
+                worked |= task.OnCheckProgress(storyMessage);
             }
+
+            return worked;
         }
     }
 }

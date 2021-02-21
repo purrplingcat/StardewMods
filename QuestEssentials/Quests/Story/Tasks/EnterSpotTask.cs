@@ -23,28 +23,30 @@ namespace QuestEssentials.Quests.Story.Tasks
 
         public WalkTaskData Data { get; set; }
 
-        public override void OnCompletionCheck(StoryMessage message)
+        public override bool OnCheckProgress(StoryMessage message)
         {
             if (message.Trigger != "PlayerMoved" || !this.IsWhenMatched())
-                return;
+                return false;
 
             if (message is PlayerMovedMessage movedMessage)
             {
                 if (movedMessage.Location.Name != this.Data.Location)
-                    return;
+                    return false;
 
                 if (this.Data.Tile.HasValue && this.Data.Tile.Value == movedMessage.TilePosition)
                 {
                     this.Increment(1);
-                    return;
+                    return true;
                 }
 
                 if (this.Data.Area.HasValue && this.Data.Area.Value.Contains((int)movedMessage.Position.X, (int)movedMessage.Position.Y))
                 {
                     this.Increment(1);
-                    return;
+                    return true;
                 }
             }
+
+            return false;
         }
     }
 }
