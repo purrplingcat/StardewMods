@@ -112,7 +112,7 @@ namespace QuestEssentials.Tasks
             this.CheckCompletion();
         }
 
-        protected virtual void OnCompletion()
+        protected virtual void OnTaskComplete()
         {
         }
 
@@ -129,7 +129,7 @@ namespace QuestEssentials.Tasks
             {
                 wasJustCompleted = true;
                 this._complete = true;
-                this.OnCompletion();
+                this.OnTaskComplete();
             }
 
             if (this._quest != null)

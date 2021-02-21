@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 using QuestEssentials.Framework;
 using QuestEssentials.Messages;
 using QuestEssentials.Quests.Messages;
+using StardewValley;
+using System;
+using System.Linq;
 
 namespace QuestEssentials.Tasks
 {
@@ -15,9 +18,29 @@ namespace QuestEssentials.Tasks
             [JsonConverter(typeof(RectangleConverter))]
             public Rectangle? Area { get; set; }
             public string Location { get; set; }
+            public string EventOnComplete { get; set; }
         }
 
         public WalkTaskData Data { get; set; }
+
+        protected override void OnTaskComplete()
+        {
+            if (this.Data.EventOnComplete == null)
+                return;
+
+            if (this.Data.Location == null || Game1.player.currentLocation.Name != this.Data.Location)
+                return;
+
+            string[] eventInfo = this.Data.EventOnComplete.Split(' ');
+            int eventId = Convert.ToInt32(eventInfo[0]);
+            string path = string.Join(" ", eventInfo.Skip(1));
+
+            Game1.player.Halt();
+            Game1.globalFadeToBlack(delegate
+            {
+                Game1.player.currentLocation.startEvent(new Event(Game1.content.LoadString(path), eventId));
+            });
+        }
 
         public override bool OnCheckProgress(StoryMessage message)
         {
