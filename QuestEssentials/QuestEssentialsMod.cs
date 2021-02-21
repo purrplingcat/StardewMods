@@ -118,6 +118,7 @@ namespace QuestEssentials
             questApi.ExposeQuestType<EarnMoneyQuest>("EarnMoney");
             questApi.ExposeQuestType<TalkQuest>("Talk");
             questApi.ExposeQuestType<StoryQuest>("Story");
+            questApi.ExposeQuestType<CollectQuest>("Collect");
 
             QuestApi = questApi;
         }
