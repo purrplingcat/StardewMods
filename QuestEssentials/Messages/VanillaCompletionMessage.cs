@@ -1,5 +1,4 @@
-﻿using QuestEssentials.Quests.Story;
-using QuestFramework.Quests;
+﻿using QuestFramework.Quests;
 using StardewValley;
 using StardewValley.Quests;
 using System;

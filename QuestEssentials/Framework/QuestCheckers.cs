@@ -40,7 +40,7 @@ namespace QuestEssentials.Framework
 
         public static void CheckTalkQuests(Farmer farmer, NPC currentSpeaker)
         {
-            QuestApi.CheckForQuestComplete(new TalkMessage(farmer, currentSpeaker));
+            QuestApi.CheckForQuestComplete(new NpcSpeakMessage(farmer, currentSpeaker));
         }
     }
 }

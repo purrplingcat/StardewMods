@@ -1,14 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using QuestEssentials.Framework;
+using QuestEssentials.Messages;
 using QuestEssentials.Quests.Messages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace QuestEssentials.Quests.Story.Tasks
+namespace QuestEssentials.Tasks
 {
     class EnterSpotTask : StoryQuestTask
     {

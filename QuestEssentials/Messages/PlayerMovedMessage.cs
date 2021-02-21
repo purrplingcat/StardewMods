@@ -1,11 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using QuestEssentials.Quests.Story;
+using QuestEssentials.Messages;
 using StardewValley;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QuestEssentials.Quests.Messages
 {

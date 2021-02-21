@@ -1,11 +1,4 @@
-﻿using QuestEssentials.Quests.Story;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QuestEssentials.Messages
+﻿namespace QuestEssentials.Messages
 {
     public class EarnMoneyMessage : StoryMessage
     {

@@ -1,15 +1,13 @@
 ﻿using Newtonsoft.Json;
 using QuestEssentials.Framework;
-using QuestEssentials.Quests.Story.Tasks;
+using QuestEssentials.Messages;
+using QuestEssentials.Quests;
 using QuestFramework.Extensions;
 using StardewValley;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace QuestEssentials.Quests.Story
+namespace QuestEssentials.Tasks
 {
     [JsonConverter(typeof(StoryQuestTaskConverter))]
     public abstract class StoryQuestTask

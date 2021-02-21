@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using QuestEssentials.Quests.Story;
+using QuestEssentials.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,10 +4,10 @@ using QuestFramework.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using QuestEssentials.Quests.Story;
 using StardewModdingAPI;
 using System.Text;
 using QuestEssentials.Messages;
+using QuestEssentials.Tasks;
 
 namespace QuestEssentials.Quests
 {

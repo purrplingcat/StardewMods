@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuestEssentials.Quests.Story
+namespace QuestEssentials.Messages
 {
     public class StoryMessage
     {

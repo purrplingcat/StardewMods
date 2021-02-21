@@ -6,12 +6,9 @@ using StardewValley.Menus;
 using QuestFramework.Api;
 using QuestEssentials.Quests;
 using QuestEssentials.Framework;
-using Patches = QuestEssentials.Framework.Patches;
-using System.Collections.Generic;
-using System;
 using Microsoft.Xna.Framework;
-using QuestEssentials.Quests.Story;
 using QuestEssentials.Quests.Messages;
+using Patches = QuestEssentials.Framework.Patches;
 
 namespace QuestEssentials
 {
