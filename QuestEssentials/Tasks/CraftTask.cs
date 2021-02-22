@@ -1,5 +1,6 @@
 ﻿using QuestEssentials.Framework;
 using QuestEssentials.Messages;
+using StardewValley;
 using StardewValley.Quests;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace QuestEssentials.Tasks
 {
-    public class CollectTask : StoryQuestTask
+    public class CraftTask : StoryQuestTask
     {
         public string AcceptedContextTags { get; set; }
 
@@ -18,14 +19,14 @@ namespace QuestEssentials.Tasks
             if (this.IsCompleted())
                 return false;
 
-            if (message is VanillaCompletionMessage completionArgs && completionArgs.CompletionType == Quest.type_resource)
+            if (message is VanillaCompletionMessage args && args.CompletionType == Quest.type_crafting)
             {
-                if (completionArgs.Item == null || this.AcceptedContextTags == null || !this.IsWhenMatched())
+                if (args.Item == null || this.AcceptedContextTags == null || !this.IsWhenMatched())
                     return false;
 
-                if (Helper.CheckItemContextTags(completionArgs.Item, this.AcceptedContextTags))
+                if (Helper.CheckItemContextTags(args.Item, this.AcceptedContextTags))
                 {
-                    this.IncrementCount(completionArgs.Item.Stack);
+                    this.IncrementCount(args.Item.Stack);
 
                     return true;
                 }

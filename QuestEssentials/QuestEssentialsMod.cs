@@ -46,6 +46,10 @@ namespace QuestEssentials
                 prefix: new HarmonyMethod(typeof(Patches), nameof(Patches.Before_set_Money))
             );
             harmony.Patch(
+                original: AccessTools.Method(typeof(NPC), nameof(NPC.tryToReceiveActiveObject)),
+                prefix: new HarmonyMethod(typeof(Patches), nameof(Patches.Before_tryToReceiveActiveObject))
+            );
+            harmony.Patch(
                 original: AccessTools.Method(typeof(NPC), nameof(NPC.hasTemporaryMessageAvailable)),
                 postfix: new HarmonyMethod(typeof(Patches), nameof(Patches.After_hasTemporaryMessageAvailable))
             );
@@ -105,13 +109,10 @@ namespace QuestEssentials
 
         private void GameLoop_GameLaunched(object sender, GameLaunchedEventArgs e)
         {
-            // IPurrplingCoreApi core = this.Helper.ModRegistry.GetApi<IPurrplingCoreApi>("PurrplingCat.PurrplingCore");
             IManagedQuestApi questApi = this.Helper
                 .ModRegistry
                 .GetApi<IQuestApi>("PurrplingCat.QuestFramework")
                 .GetManagedApi(this.ModManifest);
-
-            // core.Events.OnSellItem += this.OnSellItem;
 
             // Expose QF custom quest types
             questApi.ExposeQuestType<SellItemQuest>("SellItem");
@@ -122,10 +123,5 @@ namespace QuestEssentials
 
             QuestApi = questApi;
         }
-
-        /*private void OnSellItem(object sender, PurrplingCore.Events.SellItemArgs e)
-        {
-            CheckSellQuests(e.SoldItem);
-        }*/
     }
 }

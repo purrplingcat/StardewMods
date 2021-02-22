@@ -1,4 +1,5 @@
-﻿using QuestEssentials.Quests;
+﻿using QuestEssentials.Messages;
+using QuestEssentials.Quests;
 using QuestFramework.Extensions;
 using StardewModdingAPI;
 using StardewValley;
@@ -108,6 +109,25 @@ namespace QuestEssentials.Framework
                 return;
 
             QuestCheckers.CheckEarnQuests(value - oldMoney);
+        }
+
+        public static bool Before_tryToReceiveActiveObject(NPC __instance, Farmer who)
+        {
+            if (__instance.Name.Equals("Henchman") && Game1.currentLocation.Name.Equals("WitchSwamp"))
+                return true;
+
+            if (QuestEssentialsMod.QuestApi.CheckForQuestComplete(new DeliverMessage(who, __instance, who.ActiveObject)))
+            {
+                if (who.ActiveObject.Stack <= 0)
+                {
+                    who.ActiveObject = null;
+                    who.showNotCarrying();
+                }
+
+                return false;
+            }
+
+            return true;
         }
     }
 }

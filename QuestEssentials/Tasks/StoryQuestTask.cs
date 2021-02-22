@@ -59,6 +59,8 @@ namespace QuestEssentials.Tasks
             RegisterTaskType<BasicTask>("Basic");
             RegisterTaskType<EnterSpotTask>("EnterSpot");
             RegisterTaskType<CollectTask>("Collect");
+            RegisterTaskType<CraftTask>("Craft");
+            RegisterTaskType<DeliverTask>("Deliver");
         }
 
         protected bool IsWhenMatched()

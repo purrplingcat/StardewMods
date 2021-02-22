@@ -44,7 +44,7 @@ namespace QuestEssentials.Tasks
 
         public override bool OnCheckProgress(StoryMessage message)
         {
-            if (message.Trigger != "PlayerMoved" || !this.IsWhenMatched())
+            if (message.Trigger != "PlayerMoved" || !this.IsWhenMatched() || this.IsCompleted())
                 return false;
 
             if (message is PlayerMovedMessage movedMessage)
