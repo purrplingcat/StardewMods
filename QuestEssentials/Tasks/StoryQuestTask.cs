@@ -94,6 +94,11 @@ namespace QuestEssentials.Tasks
             return this._complete;
         }
 
+        public void ForceComplete(bool playSound = true)
+        {
+            this.CurrentCount = this.Goal;
+        }
+
         public virtual void Load()
         {
         }
@@ -146,9 +151,9 @@ namespace QuestEssentials.Tasks
             return wasJustCompleted;
         }
 
-        public void ForceComplete(bool playSound = true)
+        public virtual bool ShouldShowProgress()
         {
-            this.CurrentCount = this.Goal;
+            return true;
         }
 
         /// <summary>
@@ -176,5 +181,10 @@ namespace QuestEssentials.Tasks
         {
             return knownTypes.ContainsValue(typeof(T));
         }
+    }
+
+    public abstract class StoryQuestTask<T> : StoryQuestTask
+    {
+        public T Data { get; set; }
     }
 }

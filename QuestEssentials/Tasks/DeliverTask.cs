@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace QuestEssentials.Tasks
 {
-    public class DeliverTask : StoryQuestTask
+    public class DeliverTask : StoryQuestTask<DeliverTask.DeliverData>
     {
         public struct DeliverData
         {
@@ -18,8 +18,6 @@ namespace QuestEssentials.Tasks
             public string NotEnoughMessage { get; set; }
             public string Message { get; set; }
         }
-
-        public DeliverData Data { get; set; }
 
         public override bool OnCheckProgress(StoryMessage message)
         {

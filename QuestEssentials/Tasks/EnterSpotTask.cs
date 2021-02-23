@@ -9,9 +9,9 @@ using System.Linq;
 
 namespace QuestEssentials.Tasks
 {
-    class EnterSpotTask : StoryQuestTask
+    class EnterSpotTask : StoryQuestTask<EnterSpotTask.EnterSpotData>
     {
-        public struct WalkTaskData
+        public struct EnterSpotData
         {
             [JsonConverter(typeof(PointConverter))]
             public Point? Tile { get; set; }
@@ -20,8 +20,6 @@ namespace QuestEssentials.Tasks
             public string Location { get; set; }
             public string EventOnComplete { get; set; }
         }
-
-        public WalkTaskData Data { get; set; }
 
         protected override void OnTaskComplete()
         {
@@ -42,6 +40,11 @@ namespace QuestEssentials.Tasks
             });
         }
 
+        public override bool ShouldShowProgress()
+        {
+            return false;
+        }
+
         public override bool OnCheckProgress(StoryMessage message)
         {
             if (message.Trigger != "PlayerMoved" || !this.IsWhenMatched() || this.IsCompleted())
@@ -54,13 +57,13 @@ namespace QuestEssentials.Tasks
 
                 if (this.Data.Tile.HasValue && this.Data.Tile.Value == movedMessage.TilePosition)
                 {
-                    this.IncrementCount(1);
+                    this.IncrementCount(this.Goal);
                     return true;
                 }
 
                 if (this.Data.Area.HasValue && this.Data.Area.Value.Contains((int)movedMessage.Position.X, (int)movedMessage.Position.Y))
                 {
-                    this.IncrementCount(1);
+                    this.IncrementCount(this.Goal);
                     return true;
                 }
             }

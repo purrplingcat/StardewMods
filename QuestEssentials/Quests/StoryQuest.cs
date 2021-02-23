@@ -85,7 +85,7 @@ namespace QuestEssentials.Quests
                 {
                     StringBuilder text = new StringBuilder(task.Description);
 
-                    if (task.Goal > 1)
+                    if (task.ShouldShowProgress() && task.Goal > 1)
                     {
                         text.Append($" ({task.CurrentCount}/{task.Goal})");
                     }
