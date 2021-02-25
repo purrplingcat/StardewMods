@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QuestEssentials.Tasks
 {
-    class SlayTask : StoryQuestTask<SlayTask.SlayData>
+    public class SlayTask : StoryQuestTask<SlayTask.SlayData>
     {
         public struct SlayData
         {

@@ -9,6 +9,8 @@ using QuestEssentials.Framework;
 using Microsoft.Xna.Framework;
 using QuestEssentials.Quests.Messages;
 using Patches = QuestEssentials.Framework.Patches;
+using StardewValley.Tools;
+using StardewValley.Objects;
 
 namespace QuestEssentials
 {
@@ -52,6 +54,14 @@ namespace QuestEssentials
             harmony.Patch(
                 original: AccessTools.Method(typeof(NPC), nameof(NPC.hasTemporaryMessageAvailable)),
                 postfix: new HarmonyMethod(typeof(Patches), nameof(Patches.After_hasTemporaryMessageAvailable))
+            );
+            harmony.Patch(
+                original: AccessTools.Method(typeof(FishingRod), nameof(FishingRod.playerCaughtFishEndFunction)),
+                postfix: new HarmonyMethod(typeof(Patches), nameof(Patches.After_playerCaughtFishEndFunction))
+            );
+            harmony.Patch(
+                original: AccessTools.Method(typeof(CrabPot), nameof(CrabPot.checkForAction)),
+                prefix: new HarmonyMethod(typeof(Patches), nameof(Patches.Before_checkForAction))
             );
         }
 

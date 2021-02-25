@@ -63,6 +63,7 @@ namespace QuestEssentials.Tasks
             RegisterTaskType<DeliverTask>("Deliver");
             RegisterTaskType<TalkTask>("Talk");
             RegisterTaskType<SlayTask>("Slay");
+            RegisterTaskType<FishTask>("Fish");
         }
 
         protected bool IsWhenMatched()

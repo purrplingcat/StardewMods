@@ -1,11 +1,15 @@
-﻿using QuestEssentials.Messages;
+﻿using Microsoft.Xna.Framework;
+using QuestEssentials.Messages;
 using QuestEssentials.Quests;
 using QuestFramework.Extensions;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
+using StardewValley.Objects;
+using StardewValley.Tools;
 using System;
 using System.Linq;
+using SObject = StardewValley.Object;
 
 namespace QuestEssentials.Framework
 {
@@ -128,6 +132,43 @@ namespace QuestEssentials.Framework
             }
 
             return true;
+        }
+
+        public static void After_playerCaughtFishEndFunction(FishingRod __instance, Farmer ___lastUser, int ___whichFish, int ___fishQuality, string ___itemCategory)
+        {
+            if (___lastUser.IsLocalPlayer && !Game1.isFestival() && !__instance.fromFishPond)
+            {
+                if (___itemCategory == "Object")
+                {
+                    SObject fish = new SObject(___whichFish, 1, isRecipe: false, -1, ___fishQuality);
+                    if (___whichFish == GameLocation.CAROLINES_NECKLACE_ITEM)
+                    {
+                        fish.questItem.Value = true;
+                    }
+                    if (___whichFish == 79 || ___whichFish == 842)
+                    {
+                        fish = ___lastUser.currentLocation.tryToCreateUnseenSecretNote(___lastUser);
+                        if (fish == null)
+                        {
+                            return;
+                        }
+                    }
+                    if (__instance.caughtDoubleFish)
+                    {
+                        fish.Stack = 2;
+                    }
+
+                    QuestEssentialsMod.QuestApi.CheckForQuestComplete(new FishMessage(___lastUser, fish));
+                }
+            }
+        }
+
+        public static void Before_checkForAction(CrabPot __instance, Farmer who, bool justCheckingForActivity)
+        {
+            if (__instance.tileIndexToShow == 714 && !justCheckingForActivity && __instance.heldObject.Value != null)
+            {
+                QuestEssentialsMod.QuestApi.CheckForQuestComplete(new FishMessage(who, __instance.heldObject.Value));
+            }
         }
     }
 }
