@@ -170,5 +170,10 @@ namespace QuestEssentials.Framework
                 QuestEssentialsMod.QuestApi.CheckForQuestComplete(new FishMessage(who, __instance.heldObject.Value));
             }
         }
+
+        public static void After_onGiftGiven(Farmer __instance, NPC npc, SObject item)
+        {
+            QuestEssentialsMod.QuestApi.CheckForQuestComplete(new GiftMessage(__instance, npc, item));
+        }
     }
 }

@@ -48,6 +48,10 @@ namespace QuestEssentials
                 prefix: new HarmonyMethod(typeof(Patches), nameof(Patches.Before_set_Money))
             );
             harmony.Patch(
+                original: AccessTools.Method(typeof(Farmer), nameof(Farmer.onGiftGiven)),
+                postfix: new HarmonyMethod(typeof(Patches), nameof(Patches.After_onGiftGiven))
+            );
+            harmony.Patch(
                 original: AccessTools.Method(typeof(NPC), nameof(NPC.tryToReceiveActiveObject)),
                 prefix: new HarmonyMethod(typeof(Patches), nameof(Patches.Before_tryToReceiveActiveObject))
             );
