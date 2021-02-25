@@ -61,6 +61,7 @@ namespace QuestEssentials.Tasks
             RegisterTaskType<CollectTask>("Collect");
             RegisterTaskType<CraftTask>("Craft");
             RegisterTaskType<DeliverTask>("Deliver");
+            RegisterTaskType<TalkTask>("Talk");
         }
 
         protected bool IsWhenMatched()
@@ -149,6 +150,10 @@ namespace QuestEssentials.Tasks
             }
 
             return wasJustCompleted;
+        }
+
+        public virtual void DoAdjust(object toAdjust)
+        {
         }
 
         public virtual bool ShouldShowProgress()

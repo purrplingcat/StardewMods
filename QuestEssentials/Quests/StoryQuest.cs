@@ -76,6 +76,21 @@ namespace QuestEssentials.Quests
             return false;
         }
 
+        public override void OnAdjust(object toAdjust)
+        {
+            if (this.Tasks == null)
+                return;
+
+            foreach (var task in this.Tasks)
+            {
+                if (!task.IsRegistered())
+                    continue;
+
+                task.DoAdjust(toAdjust);
+            }
+
+        }
+
         protected override void UpdateCurrentObjectives(List<CustomQuestObjective> currentObjectives)
         {
             currentObjectives.Clear();

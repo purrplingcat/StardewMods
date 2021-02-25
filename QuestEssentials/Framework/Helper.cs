@@ -34,5 +34,30 @@ namespace QuestEssentials.Framework
 
             return !fail;
         }
+
+        public static void StartEventFrom(this GameLocation location, string source)
+        {
+            string[] eventInfo = source.Split(' ');
+
+            if (eventInfo.Length < 2)
+                QuestEssentialsMod.ModMonitor.Log("Invalid event source format. It requires `<int:EventId> <string:pathToScript>` where path to script must be `<strin g:GameContentFile>:<string:Key>`", StardewModdingAPI.LogLevel.Error);
+
+            int eventId = Convert.ToInt32(eventInfo[0]);
+            string scriptPath = string.Join(" ", eventInfo.Skip(1));
+
+            StartEventFrom(location, eventId, scriptPath);
+        }
+
+        public static void StartEventFrom(this GameLocation location, int eventId, string scriptPath)
+        {
+            Game1.player.Halt();
+            Game1.exitActiveMenu();
+            Game1.dialogueUp = false;
+            Game1.currentSpeaker = null;
+            Game1.globalFadeToBlack(delegate
+            {
+                location.startEvent(new Event(Game1.content.LoadString(scriptPath), eventId));
+            });
+        }
     }
 }

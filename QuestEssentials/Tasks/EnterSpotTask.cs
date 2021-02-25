@@ -29,15 +29,7 @@ namespace QuestEssentials.Tasks
             if (this.Data.Location == null || Game1.player.currentLocation.Name != this.Data.Location)
                 return;
 
-            string[] eventInfo = this.Data.EventOnComplete.Split(' ');
-            int eventId = Convert.ToInt32(eventInfo[0]);
-            string path = string.Join(" ", eventInfo.Skip(1));
-
-            Game1.player.Halt();
-            Game1.globalFadeToBlack(delegate
-            {
-                Game1.player.currentLocation.startEvent(new Event(Game1.content.LoadString(path), eventId));
-            });
+            Game1.player.currentLocation.StartEventFrom(this.Data.EventOnComplete);
         }
 
         public override bool ShouldShowProgress()
