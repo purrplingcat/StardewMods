@@ -61,41 +61,40 @@ namespace QuestEssentials.Tasks
 
         private void OnDialogueSpoken()
         {
+            Game1.exitActiveMenu();
+            Game1.dialogueUp = false;
+            Game1.currentSpeaker = null;
+
             if (this.Data.ReceiveItems != null)
             {
-                this.AddItemsToInvertory();
+                // Give items from NPC to player
+                DelayedAction.functionAfterDelay(delegate
+                {
+                    string[] itemDescriptions = this.Data.ReceiveItems.Split(',');
+                    List<Item> items = itemDescriptions.Select(d => ItemFactory.Create(d))
+                        .Where(i => i != null)
+                        .ToList();
+
+                    Game1.player.addItemsByMenuIfNecessary(items);
+                }, 200);
+                Game1.player.freezePause = 250;
             }
 
             if (this.Data.StartEvent != null)
             {
-                this.StartEvent();
+                // Play event in current location by talk with NPC 
+                var eventStartAction = new DelayedAction(220, () => Game1.player.currentLocation.StartEventFrom(this.Data.StartEvent))
+                {
+                    waitUntilMenusGone = true
+                };
+
+                Game1.delayedActions.Add(eventStartAction);
             }
-        }
-
-        private void AddItemsToInvertory()
-        {
-            string[] itemDescriptions = this.Data.ReceiveItems.Split(',');
-            List<Item> items = itemDescriptions.Select(d => ItemFactory.Create(d))
-                .Where(i => i != null)
-                .ToList();
-
-            Game1.activeClickableMenu?.exitThisMenu(playSound: false);
-            Game1.player.addItemsByMenuIfNecessary(items);
-        }
-
-        private void StartEvent()
-        {
-            var eventStartAction = new DelayedAction(1, () => Game1.player.currentLocation.StartEventFrom(this.Data.StartEvent)) 
-            { 
-                waitUntilMenusGone = true 
-            };
-
-            Game1.delayedActions.Add(eventStartAction);
         }
 
         public override void DoAdjust(object toAdjust)
         {
-            if (toAdjust is ITalkMessage talkAdjust && !Game1.dialogueUp)
+            if (toAdjust is ITalkMessage talkAdjust && !Game1.dialogueUp && this.IsActive())
             {
                 // Quest Framework sends an object to adjust when Farmer requests talk with NPC via NPC.checkAction
                 // We catch it and transfer as TalkRequest and call OnCheckProgress with the request as argument

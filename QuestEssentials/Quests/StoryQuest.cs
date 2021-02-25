@@ -50,7 +50,7 @@ namespace QuestEssentials.Quests
             if (!Context.IsWorldReady || !Context.CanPlayerMove)
                 return;
 
-            if (this.State.complete && this.IsInQuestLog() && !this.GetInQuestLog().completed.Value)
+            if (this.State.complete && this.IsInQuestLogAndActive())
             {
                 this.Complete();
             }
@@ -83,7 +83,7 @@ namespace QuestEssentials.Quests
 
             foreach (var task in this.Tasks)
             {
-                if (!task.IsRegistered())
+                if (!task.IsRegistered() && !task.IsActive())
                     continue;
 
                 task.DoAdjust(toAdjust);
@@ -98,6 +98,9 @@ namespace QuestEssentials.Quests
             if (this.Tasks != null) {
                 foreach (var task in this.Tasks)
                 {
+                    if (!task.IsActive())
+                        continue;
+
                     StringBuilder text = new StringBuilder(task.Description);
 
                     if (task.ShouldShowProgress() && task.Goal > 1)
@@ -113,20 +116,35 @@ namespace QuestEssentials.Quests
             }
         }
 
+        public bool HasCompletedTask(string requiredTaskName)
+        {
+            return this.Tasks.Any(t => t.Name == requiredTaskName && t.IsCompleted());
+        }
+
+        public bool IsInQuestLogAndActive()
+        {
+            return this.IsInQuestLog() && !this.GetInQuestLog().completed.Value;
+        }
+
         public void CheckQuestCompletion()
         {
-            this.State.complete = !this.Tasks.Any(t => t.IsRegistered() && !t.IsCompleted());
+            this.State.complete = this.HasAllTasksCompleted();
+        }
+
+        public bool HasAllTasksCompleted()
+        {
+            return !this.Tasks.Any(t => t.IsRegistered() && !t.IsCompleted());
         }
 
         private bool CheckTasks(StoryMessage storyMessage)
         {
-            if (this.Tasks == null)
+            if (this.Tasks == null || !this.IsInQuestLogAndActive())
                 return false;
 
             bool worked = false;
             foreach (var task in this.Tasks)
             {
-                if (!task.IsRegistered())
+                if (!task.IsRegistered() || !task.IsActive())
                     continue;
 
                 worked |= task.OnCheckProgress(storyMessage);

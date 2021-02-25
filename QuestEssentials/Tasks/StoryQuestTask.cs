@@ -20,6 +20,7 @@ namespace QuestEssentials.Tasks
         public string Type { get; set; }
         public string Description { get; set; }
         public Dictionary<string, string> When { get; set; }
+        public List<string> RequiredTasks { get; set; }
         public int Goal { get; set; } = 1;
 
         [JsonIgnore]
@@ -27,7 +28,7 @@ namespace QuestEssentials.Tasks
         {
             get
             {
-                if (this._quest == null || this._quest.State == null)
+                if (this._quest == null && this._quest.State != null)
                     return 0;
 
                 if (!this._quest.State.progress.ContainsKey(this.Name))
@@ -40,7 +41,7 @@ namespace QuestEssentials.Tasks
             }
             set
             {
-                if (this._quest != null || this._quest.State == null)
+                if (this._quest != null && this._quest.State != null)
                 {
                     if (this._quest.State.progress[this.Name] == value)
                         return;
@@ -81,6 +82,26 @@ namespace QuestEssentials.Tasks
         public bool IsRegistered()
         {
             return this._quest != null && this._quest.State != null;
+        }
+
+        public bool IsActive()
+        {
+            if (!this.IsRegistered())
+                return false;
+
+            bool hasRequiredTasks = this.RequiredTasks != null && this.RequiredTasks.Count > 0;
+            bool matchAllRequiredTasks = true;
+
+            if (hasRequiredTasks)
+            {
+                foreach (string requiredTaskName in this.RequiredTasks)
+                {
+                    if (!this._quest.HasCompletedTask(requiredTaskName))
+                        matchAllRequiredTasks = false;
+                }
+            }
+
+            return !hasRequiredTasks || matchAllRequiredTasks;
         }
 
         public void IncrementCount(int amount)
@@ -131,7 +152,7 @@ namespace QuestEssentials.Tasks
 
         public virtual bool CheckCompletion(bool playSound = true)
         {
-            if (!this.IsRegistered())
+            if (!this.IsRegistered() || !this._quest.IsInQuestLogAndActive())
                 return false;
 
             bool wasJustCompleted = false;
