@@ -15,8 +15,10 @@ using SObject = StardewValley.Object;
 namespace QuestEssentials.Framework.Factories
 {
     /*
-     * This part of code was taken from SMAPI ConsoleCommands by Pathoschild
-     * https://github.com/Pathoschild/SMAPI/tree/develop/src/SMAPI.Mods.ConsoleCommands
+     * This part of code was taken from Pathoschild's StardewMods repo
+     * https://github.com/Pathoschild/StardewMods/tree/develop/Common/Items
+     * Credits: Pathoschild
+     * Edited by: PurrplingCat
      */
     class ItemFactory
     {
@@ -338,6 +340,11 @@ namespace QuestEssentials.Framework.Factories
 
         private static readonly ItemFactory factory = new ItemFactory();
 
+        /// <summary>
+        /// Creates an item by their tag description
+        /// </summary>
+        /// <param name="description">The tag description</param>
+        /// <returns></returns>
         public static Item Create(string description)
         {
             string[] descSplit = description.Trim().Split(' ');

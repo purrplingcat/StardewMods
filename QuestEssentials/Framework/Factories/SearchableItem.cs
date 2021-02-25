@@ -3,6 +3,12 @@ using StardewValley;
 
 namespace QuestEssentials.Framework.Factories
 {
+    /*
+     * This part of code was taken from Pathoschild's StardewMods repo
+     * https://github.com/Pathoschild/StardewMods/tree/develop/Common/Items
+     * Credits: Pathoschild
+     * Edited by: PurrplingCat
+     */
     /// <summary>A game item with metadata.</summary>
     internal class SearchableItem
     {
