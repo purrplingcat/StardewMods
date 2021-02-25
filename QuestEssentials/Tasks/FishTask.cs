@@ -20,7 +20,7 @@ namespace QuestEssentials.Tasks
             if (this.IsCompleted())
                 return false;
 
-            if (message is FishMessage fishMessage && this.IsWhenMatched())
+            if (message is FishMessage fishMessage)
             {
                 if (fishMessage.Fish == null || this.Data.AcceptedContextTags == null || !this.IsWhenMatched())
                     return false;

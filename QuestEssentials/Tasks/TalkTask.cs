@@ -38,7 +38,10 @@ namespace QuestEssentials.Tasks
 
         public override bool OnCheckProgress(StoryMessage message)
         {
-            if (message is TalkRequest talkRequest)
+            if (this.IsCompleted())
+                return false;
+
+            if (message is TalkRequest talkRequest && this.IsWhenMatched())
             {
                 if (talkRequest.speaker.Name == this.Data.NpcName)
                 {

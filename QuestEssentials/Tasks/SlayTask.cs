@@ -36,7 +36,10 @@ namespace QuestEssentials.Tasks
 
         public override bool OnCheckProgress(StoryMessage message)
         {
-            if (message is VanillaCompletionMessage args && args.CompletionType == 4)
+            if (this.IsCompleted())
+                return false;
+
+            if (message is VanillaCompletionMessage args && args.CompletionType == 4 && this.IsWhenMatched())
             {
                 if (this.targetNames.Count == 0 && !string.IsNullOrEmpty(args.String))
                 {
