@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace QuestEssentials.Framework
 {
-    internal class StoryQuestTaskConverter : JsonConverter
+    internal class QuestTaskConverter : JsonConverter
     {
         private bool _inside = false;
 
@@ -18,7 +18,7 @@ namespace QuestEssentials.Framework
 
         public override bool CanConvert(Type objectType)
         {
-            return objectType.IsAssignableFrom(typeof(StoryQuestTask));
+            return objectType.IsAssignableFrom(typeof(QuestTask));
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -34,15 +34,15 @@ namespace QuestEssentials.Framework
                 throw new JsonException("Attribute `Type` is required for `StoryQuestTalk`!");
             }
 
-            StoryQuestTask task;
+            QuestTask task;
             string type = jObject["Type"].ToString();
-            if (!StoryQuestTask.knownTypes.ContainsKey(type))
+            if (!QuestTask.knownTypes.ContainsKey(type))
             {
                 throw new JsonException($"Unknown story quest type `{type}`");
             }
 
-            QuestEssentialsMod.ModMonitor.Log($"StoryQuestTaskConverter: Using class type <{StoryQuestTask.knownTypes[type].FullName}> for `{type}`");
-            task = (StoryQuestTask)jObject.ToObject(StoryQuestTask.knownTypes[type], serializer);
+            QuestEssentialsMod.ModMonitor.Log($"StoryQuestTaskConverter: Using class type <{QuestTask.knownTypes[type].FullName}> for `{type}`");
+            task = (QuestTask)jObject.ToObject(QuestTask.knownTypes[type], serializer);
             this._inside = false;
 
             return task;

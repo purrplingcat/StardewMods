@@ -74,7 +74,7 @@ namespace QuestEssentials
             if (!Context.IsWorldReady)
                 return;
 
-            QuestApi.CheckForQuestComplete<StoryQuest>(
+            QuestApi.CheckForQuestComplete<SpecialQuest>(
                 new PlayerMovedMessage(
                     location: e.NewLocation,
                     position: e.Player.Position,
@@ -94,7 +94,7 @@ namespace QuestEssentials
                 this._lastLocation = Game1.player.currentLocation;
                 this._lastTilePosition = Game1.player.getTileLocationPoint();
 
-                QuestApi.CheckForQuestComplete<StoryQuest>(
+                QuestApi.CheckForQuestComplete<SpecialQuest>(
                     new PlayerMovedMessage(
                         location: this._lastLocation,
                         position: Game1.player.getStandingPosition(),
@@ -132,7 +132,7 @@ namespace QuestEssentials
             questApi.ExposeQuestType<SellItemQuest>("SellItem");
             questApi.ExposeQuestType<EarnMoneyQuest>("EarnMoney");
             questApi.ExposeQuestType<TalkQuest>("Talk");
-            questApi.ExposeQuestType<StoryQuest>("Story");
+            questApi.ExposeQuestType<SpecialQuest>("Special");
             questApi.ExposeQuestType<CollectQuest>("Collect");
 
             QuestApi = questApi;

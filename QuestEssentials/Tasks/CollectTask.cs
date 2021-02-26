@@ -9,9 +9,12 @@ using System.Threading.Tasks;
 
 namespace QuestEssentials.Tasks
 {
-    public class CollectTask : StoryQuestTask
+    public class CollectTask : QuestTask<CollectTask.CollectData>
     {
-        public string AcceptedContextTags { get; set; }
+        public struct CollectData
+        {
+            public string AcceptedContextTags { get; set; }
+        }
 
         public override bool OnCheckProgress(StoryMessage message)
         {
@@ -20,10 +23,10 @@ namespace QuestEssentials.Tasks
 
             if (message is VanillaCompletionMessage completionArgs && completionArgs.CompletionType == Quest.type_resource)
             {
-                if (completionArgs.Item == null || this.AcceptedContextTags == null || !this.IsWhenMatched())
+                if (completionArgs.Item == null || this.Data.AcceptedContextTags == null || !this.IsWhenMatched())
                     return false;
 
-                if (Helper.CheckItemContextTags(completionArgs.Item, this.AcceptedContextTags))
+                if (Helper.CheckItemContextTags(completionArgs.Item, this.Data.AcceptedContextTags))
                 {
                     this.IncrementCount(completionArgs.Item.Stack);
 

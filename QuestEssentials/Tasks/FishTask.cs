@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QuestEssentials.Tasks
 {
-    public class FishTask : StoryQuestTask<FishTask.FishData>
+    public class FishTask : QuestTask<FishTask.FishData>
     {
         public struct FishData
         {

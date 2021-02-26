@@ -9,11 +9,11 @@ using System.Collections.Generic;
 
 namespace QuestEssentials.Tasks
 {
-    [JsonConverter(typeof(StoryQuestTaskConverter))]
-    public abstract class StoryQuestTask
+    [JsonConverter(typeof(QuestTaskConverter))]
+    public abstract class QuestTask
     {
         internal static readonly Dictionary<string, Type> knownTypes;
-        private StoryQuest _quest;
+        private SpecialQuest _quest;
         protected bool _complete;
 
         public string Name { get; set; }
@@ -53,7 +53,7 @@ namespace QuestEssentials.Tasks
             }
         }
 
-        static StoryQuestTask()
+        static QuestTask()
         {
             knownTypes = new Dictionary<string, Type>();
 
@@ -128,7 +128,7 @@ namespace QuestEssentials.Tasks
         {
         }
 
-        public virtual void Register(StoryQuest quest)
+        public virtual void Register(SpecialQuest quest)
         {
             if (quest.State == null)
             {
@@ -187,11 +187,11 @@ namespace QuestEssentials.Tasks
 
         /// <summary>
         /// Register a class for deserialize for specified type name
-        /// Unknown type names are deserialized as <see cref="StoryQuestTask"/> class type.
+        /// Unknown type names are deserialized as <see cref="QuestTask"/> class type.
         /// </summary>
         /// <typeparam name="T">Task class type</typeparam>
         /// <param name="name">Name of task type</param>
-        public static void RegisterTaskType<T>(string name) where T : StoryQuestTask
+        public static void RegisterTaskType<T>(string name) where T : QuestTask
         {
             knownTypes.Add(name, typeof(T));
         }
@@ -206,13 +206,13 @@ namespace QuestEssentials.Tasks
             return knownTypes.ContainsValue(type);
         }
 
-        public static bool IsKnownTaskType<T>() where T : StoryQuestTask
+        public static bool IsKnownTaskType<T>() where T : QuestTask
         {
             return knownTypes.ContainsValue(typeof(T));
         }
     }
 
-    public abstract class StoryQuestTask<T> : StoryQuestTask
+    public abstract class QuestTask<T> : QuestTask
     {
         public T Data { get; set; }
     }

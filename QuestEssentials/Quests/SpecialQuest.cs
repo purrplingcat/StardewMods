@@ -11,7 +11,7 @@ using QuestEssentials.Tasks;
 
 namespace QuestEssentials.Quests
 {
-    public class StoryQuest : CustomQuest<StoryQuest.StoryQuestState>
+    public class SpecialQuest : CustomQuest<SpecialQuest.StoryQuestState>
     {
         public class StoryQuestState
         {
@@ -24,7 +24,7 @@ namespace QuestEssentials.Quests
             }
         }
 
-        public List<StoryQuestTask> Tasks { get; set; }
+        public List<QuestTask> Tasks { get; set; }
 
         protected override void OnInitialize()
         {
@@ -133,7 +133,7 @@ namespace QuestEssentials.Quests
 
         public bool HasAllTasksCompleted()
         {
-            return !this.Tasks.Any(t => t.IsRegistered() && !t.IsCompleted());
+            return !this.Tasks.Any(t => t.IsRegistered() && t.IsActive() && !t.IsCompleted());
         }
 
         private bool CheckTasks(StoryMessage storyMessage)

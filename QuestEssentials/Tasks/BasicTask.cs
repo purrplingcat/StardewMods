@@ -2,7 +2,7 @@
 
 namespace QuestEssentials.Tasks
 {
-    class BasicTask : StoryQuestTask
+    class BasicTask : QuestTask
     {
         public string Trigger { get; set; }
 

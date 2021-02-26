@@ -10,10 +10,13 @@ using System.Threading.Tasks;
 
 namespace QuestEssentials.Tasks
 {
-    public class CraftTask : StoryQuestTask
+    public class CraftTask : QuestTask<CraftTask.CraftData>
     {
-        public string AcceptedContextTags { get; set; }
-
+        public struct CraftData
+        {
+            public string AcceptedContextTags { get; set; }
+        }
+        
         public override bool OnCheckProgress(StoryMessage message)
         {
             if (this.IsCompleted())
@@ -21,10 +24,10 @@ namespace QuestEssentials.Tasks
 
             if (message is VanillaCompletionMessage args && args.CompletionType == Quest.type_crafting)
             {
-                if (args.Item == null || this.AcceptedContextTags == null || !this.IsWhenMatched())
+                if (args.Item == null || this.Data.AcceptedContextTags == null || !this.IsWhenMatched())
                     return false;
 
-                if (Helper.CheckItemContextTags(args.Item, this.AcceptedContextTags))
+                if (Helper.CheckItemContextTags(args.Item, this.Data.AcceptedContextTags))
                 {
                     this.IncrementCount(args.Item.Stack);
 

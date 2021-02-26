@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace QuestEssentials.Tasks
 {
-    public class DeliverTask : StoryQuestTask<DeliverTask.DeliverData>
+    public class DeliverTask : QuestTask<DeliverTask.DeliverData>
     {
         public struct DeliverData
         {

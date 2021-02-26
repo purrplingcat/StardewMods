@@ -1,36 +1,28 @@
 ﻿using Newtonsoft.Json;
 using QuestEssentials.Messages;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QuestEssentials.Tasks
 {
-    public class SlayTask : StoryQuestTask<SlayTask.SlayData>
+    public class SlayTask : QuestTask<SlayTask.SlayData>
     {
         public struct SlayData
         {
             public string TargetName { get; set; }
         }
 
-        [JsonIgnore]
-        public List<string> targetNames;
+        protected List<string> _targetNames = new List<string>();
 
         public override void Load()
         {
             base.Load();
 
-            if (this.targetNames == null)
+            if (this.Data.TargetName != null)
             {
-                this.targetNames = new List<string>();
+                this._targetNames.Clear();
 
-                if (this.Data.TargetName != null)
-                {
-                    foreach (string t in this.Data.TargetName.Split(','))
-                        this.targetNames.Add(t.Trim());
-                }
+                foreach (string t in this.Data.TargetName.Split(','))
+                    this._targetNames.Add(t.Trim());
             }
         }
 
@@ -41,14 +33,14 @@ namespace QuestEssentials.Tasks
 
             if (message is VanillaCompletionMessage args && args.CompletionType == 4 && this.IsWhenMatched())
             {
-                if (this.targetNames.Count == 0 && !string.IsNullOrEmpty(args.String))
+                if (this._targetNames.Count == 0 && !string.IsNullOrEmpty(args.String))
                 {
                     this.IncrementCount(1);
 
                     return true;
                 }
                     
-                foreach (string targetName in this.targetNames)
+                foreach (string targetName in this._targetNames)
                 {
                     if (args.String != null && args.String.Contains(targetName))
                     {

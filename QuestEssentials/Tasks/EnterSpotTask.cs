@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace QuestEssentials.Tasks
 {
-    class EnterSpotTask : StoryQuestTask<EnterSpotTask.EnterSpotData>
+    class EnterSpotTask : QuestTask<EnterSpotTask.EnterSpotData>
     {
         public struct EnterSpotData
         {

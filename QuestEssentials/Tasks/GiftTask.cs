@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace QuestEssentials.Tasks
 {
-    public class GiftTask : StoryQuestTask<GiftTask.GiftData>
+    public class GiftTask : QuestTask<GiftTask.GiftData>
     {
         public enum LikeLevels
         {

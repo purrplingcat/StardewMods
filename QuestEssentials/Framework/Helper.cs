@@ -11,6 +11,9 @@ namespace QuestEssentials.Framework
     {
         public static bool CheckItemContextTags(Item item, string tags)
         {
+            if (string.IsNullOrEmpty(tags))
+                return true;
+
             bool fail = false;
 
             foreach (string tagArray in tags.Split(','))

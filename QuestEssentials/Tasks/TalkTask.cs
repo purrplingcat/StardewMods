@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace QuestEssentials.Tasks
 {
-    class TalkTask : StoryQuestTask<TalkTask.TalkData>
+    class TalkTask : QuestTask<TalkTask.TalkData>
     {
         public struct TalkData
         {
