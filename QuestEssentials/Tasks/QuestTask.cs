@@ -108,6 +108,12 @@ namespace QuestEssentials.Tasks
         {
             int newCurrent = this.CurrentCount + amount;
 
+            if (newCurrent < 0)
+            {
+                this.CurrentCount = 0;
+                return;
+            }
+
             if (newCurrent > this.Goal)
                 this.CurrentCount = this.Goal;
             else

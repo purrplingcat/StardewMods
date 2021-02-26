@@ -11,6 +11,7 @@ using QuestEssentials.Quests.Messages;
 using Patches = QuestEssentials.Framework.Patches;
 using StardewValley.Tools;
 using StardewValley.Objects;
+using System;
 
 namespace QuestEssentials
 {
@@ -20,6 +21,9 @@ namespace QuestEssentials
         internal static IMonitor ModMonitor { get; private set; }
         internal static IModHelper ModHelper { get; private set; }
         internal static IManagedQuestApi QuestApi { get; private set; }
+        internal static QuestEssentialsMod Instance { get; private set; }
+
+        private EquipmentObserver _equipmentObserver;
 
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -30,8 +34,11 @@ namespace QuestEssentials
             helper.Events.GameLoop.GameLaunched += this.GameLoop_GameLaunched;
             helper.Events.GameLoop.DayEnding += this.GameLoop_DayEnding;
             helper.Events.GameLoop.UpdateTicked += this.GameLoop_UpdateTicked;
+            helper.Events.GameLoop.SaveLoaded += this.GameLoop_SaveLoaded;
             helper.Events.Player.Warped += this.Player_Warped;
             helper.Events.Display.MenuChanged += this.Display_MenuChanged;
+
+            this._equipmentObserver = new EquipmentObserver();
 
             var harmony = HarmonyInstance.Create(this.ModManifest.UniqueID);
 
@@ -67,6 +74,13 @@ namespace QuestEssentials
                 original: AccessTools.Method(typeof(CrabPot), nameof(CrabPot.checkForAction)),
                 prefix: new HarmonyMethod(typeof(Patches), nameof(Patches.Before_checkForAction))
             );
+
+            Instance = this;
+        }
+
+        private void GameLoop_SaveLoaded(object sender, SaveLoadedEventArgs e)
+        {
+            this._equipmentObserver.HookUp(Game1.player);
         }
 
         private void Player_Warped(object sender, WarpedEventArgs e)
@@ -136,6 +150,14 @@ namespace QuestEssentials
             questApi.ExposeQuestType<CollectQuest>("Collect");
 
             QuestApi = questApi;
+        }
+
+        internal bool PlayerEquips(string acceptedContextTags)
+        {
+            if (this._equipmentObserver == null)
+                return false;
+
+            return this._equipmentObserver.PlayerEquips(acceptedContextTags);
         }
     }
 }
