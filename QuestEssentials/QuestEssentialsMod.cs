@@ -67,6 +67,10 @@ namespace QuestEssentials
                 original: AccessTools.Method(typeof(CrabPot), nameof(CrabPot.checkForAction)),
                 prefix: new HarmonyMethod(typeof(Patches), nameof(Patches.Before_checkForAction))
             );
+            harmony.Patch(
+                original: AccessTools.Method(typeof(GameLocation), nameof(GameLocation.checkAction)),
+                prefix: new HarmonyMethod(typeof(Patches), nameof(Patches.Before_LocationCheckAction))
+            );
         }
 
         private void Player_Warped(object sender, WarpedEventArgs e)

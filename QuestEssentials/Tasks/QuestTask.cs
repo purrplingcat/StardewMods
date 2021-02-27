@@ -66,6 +66,7 @@ namespace QuestEssentials.Tasks
             RegisterTaskType<SlayTask>("Slay");
             RegisterTaskType<FishTask>("Fish");
             RegisterTaskType<GiftTask>("Gift");
+            RegisterTaskType<TileActionTask>("TileAction");
         }
 
         protected bool IsWhenMatched()

@@ -9,6 +9,7 @@ using StardewValley.Objects;
 using StardewValley.Tools;
 using System;
 using System.Linq;
+using xTile.Dimensions;
 using SObject = StardewValley.Object;
 
 namespace QuestEssentials.Framework
@@ -174,6 +175,20 @@ namespace QuestEssentials.Framework
         public static void After_onGiftGiven(Farmer __instance, NPC npc, SObject item)
         {
             QuestEssentialsMod.QuestApi.CheckForQuestComplete(new GiftMessage(__instance, npc, item));
+        }
+
+        public static bool Before_LocationCheckAction(GameLocation __instance, Location tileLocation, Farmer who, ref bool __result)
+        {
+            bool isColligingWithEntity = __instance.isCollidingWithCharacter(new Microsoft.Xna.Framework.Rectangle(tileLocation.X * 64, tileLocation.Y * 64, 64, 64)) != null;
+            
+            if (!isColligingWithEntity && QuestEssentialsMod.QuestApi.CheckForQuestComplete<SpecialQuest>(new TileActionMessage(who, __instance, new Point(tileLocation.X, tileLocation.Y))))
+            {
+                __result = true;
+
+                return false;
+            }
+
+            return true;
         }
     }
 }
