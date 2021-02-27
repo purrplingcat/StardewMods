@@ -13,6 +13,8 @@ namespace QuestEssentials.Quests
 {
     public class SpecialQuest : CustomQuest<SpecialQuest.StoryQuestState>
     {
+        private bool _taskRegistrationDirty;
+
         public class StoryQuestState
         {
             public bool complete = false;
@@ -26,16 +28,38 @@ namespace QuestEssentials.Quests
 
         public List<QuestTask> Tasks { get; set; }
 
+        private void OnAccepted(object sender, IQuestInfo e)
+        {
+            this._taskRegistrationDirty = true;
+        }
+
+        private void UpdateTaskRegistration()
+        {
+            this.Tasks.ForEach(t => t.Register(this));
+        }
+
+        private void OnGameUpdateTicked(object sender, StardewModdingAPI.Events.UpdateTickedEventArgs e)
+        {
+            if (!Context.IsWorldReady)
+                return;
+
+            if (this._taskRegistrationDirty)
+            {
+                this._taskRegistrationDirty = false;
+                this.UpdateTaskRegistration();
+            }
+
+            if (Context.CanPlayerMove && this.State.complete && this.IsInQuestLogAndActive())
+            {
+                this.Complete();
+            }
+        }
+
         protected override void OnInitialize()
         {
             this.Accepted += this.OnAccepted;
             QuestEssentialsMod.ModHelper.Events.GameLoop.UpdateTicked += this.OnGameUpdateTicked;
             base.OnInitialize();
-        }
-
-        private void OnAccepted(object sender, IQuestInfo e)
-        {
-            this.Tasks.ForEach(t => t.Register(this));
         }
 
         protected override void Dispose(bool disposing)
@@ -45,20 +69,15 @@ namespace QuestEssentials.Quests
             base.Dispose(disposing);
         }
 
-        private void OnGameUpdateTicked(object sender, StardewModdingAPI.Events.UpdateTickedEventArgs e)
+        protected override void OnStateRestored()
         {
-            if (!Context.IsWorldReady || !Context.CanPlayerMove)
-                return;
-
-            if (this.State.complete && this.IsInQuestLogAndActive())
-            {
-                this.Complete();
-            }
+            this._taskRegistrationDirty = true;
+            base.OnStateRestored();
         }
 
         public override void OnRegister()
         {
-            this.Tasks.ForEach(t => t.Register(this));
+            this._taskRegistrationDirty = true;
             base.OnRegister();
         }
 

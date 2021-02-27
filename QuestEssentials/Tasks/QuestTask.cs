@@ -137,6 +137,7 @@ namespace QuestEssentials.Tasks
 
             this._quest = quest;
             this.Load();
+            this.CheckCompletion(playSound: false);
         }
 
         protected virtual void OnCurrentCountChanged()
