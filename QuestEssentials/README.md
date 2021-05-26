@@ -19,6 +19,7 @@ Quest type | UID | Trigger format | Description
 EarnMoney | `PurrplingCat.QuestEssentials/EarnMoney` | `<int:MoneyEarningsGoal>` | Earn a specified goal of money.
 SellItem | `PurrplingCat.QuestEssentials/SellItem` | `<int:WhichItem> [<int:Amount>]` | Sell a specified item of specified amount. If the amount is not defined in trigger, then amount is 1.
 Talk | `PurrplingCat.QuestEssentials/Talk` | `<string:NPC_name>` | Talk with an NPC
+SpecialQuest | `PurrplingCat.QuestEssentials/Special` | *none* | Multi-staged quest. See [Secial Quests](docs/special-quests.md) docs for more details.
 
 ## Use Quest Essentials in your content pack
 
