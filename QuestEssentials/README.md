@@ -46,7 +46,7 @@ Create your `manifest.json` file
 }
 ```
 
-Create fle `quests.json` (see [Quest Framework docs](https://questframework.purrplingcat.com/docs/content-pack-guide.html))
+Create file `quests.json` (see [Quest Framework docs](https://questframework.purrplingcat.com/docs/content-pack-guide.html))
 
 And now you can define your quests using with custom quest types exposed by **Quest Essentials**. Here is an example:
 
