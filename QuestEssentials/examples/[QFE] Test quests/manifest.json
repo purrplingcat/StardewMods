@@ -1,0 +1,13 @@
+{
+  "Name": "Quest Essentials Test quests",
+  "Author": "PurrplingCat",
+  "Version": "1.0.0",
+  "Description": "Test quests for Quest Essentials & Quest Framework familys",
+  "UniqueID": "purrplingcat.testquests",
+  "MinimumApiVersion": "3.8.0",
+  "UpdateKeys": [],
+  "ContentPackFor": {
+    "UniqueID": "PurrplingCat.QuestFramework",
+    "MinimumVersion": "1.4.0-beta.2"
+  }
+}
