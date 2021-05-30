@@ -5,7 +5,7 @@ Adds new quest types and some extra stuff for quests for Quest Framework
 ## Installation
 
 1. Install [SMAPI](https://smapi.io) (version 3.7 or newer)
-2. Install [Quest Framework](https://www.nexusmods.com/stardewvalley/mods/6414) (version 1.2 or newer)
+2. Install [Quest Framework](https://www.nexusmods.com/stardewvalley/mods/6414) (version 1.4 or newer)
 3. Download Quest Essentials from Nexus mods
 4. Unpack ZIP file into `Mods` directory
 5. Run Stardew Valley via SMAPI
