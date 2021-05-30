@@ -17,7 +17,7 @@ namespace QuestEssentials.Quests
         [ActiveState]
         public ActiveStateField<int> ItemsSold { get; } = new ActiveStateField<int>(0);
 
-        public override bool OnCompletionCheck(object completionMessage)
+        public override bool OnCompletionCheck(ICompletionMessage completionMessage)
         {
             if (completionMessage is SellItemMessage sellMessage)
             {

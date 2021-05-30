@@ -37,5 +37,7 @@ namespace QuestEssentials.Messages
         public string String { get; }
 
         public int CompletionType { get; }
+
+        public string Name => "StardewValley.Quest:CompletionArgs";
     }
 }

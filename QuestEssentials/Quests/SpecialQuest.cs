@@ -81,7 +81,7 @@ namespace QuestEssentials.Quests
             base.OnRegister();
         }
 
-        public override bool OnCompletionCheck(object completionMessage)
+        public override bool OnCompletionCheck(ICompletionMessage completionMessage)
         {
             if (completionMessage is StoryMessage storyMessage)
             {

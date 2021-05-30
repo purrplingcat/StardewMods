@@ -15,7 +15,7 @@ namespace QuestEssentials.Quests
     {
         public string TalkTo { get; set; }
 
-        public override bool OnCompletionCheck(object completionMessage)
+        public override bool OnCompletionCheck(ICompletionMessage completionMessage)
         {
             if (completionMessage is ITalkMessage talkMessage)
             {

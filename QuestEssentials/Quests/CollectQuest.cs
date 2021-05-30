@@ -35,7 +35,7 @@ namespace QuestEssentials.Quests
             this.RequiredCount = split.Length >= 2 ? Convert.ToInt32(split[1]) : 1;
         }
 
-        public override bool OnCompletionCheck(object completionMessage)
+        public override bool OnCompletionCheck(ICompletionMessage completionMessage)
         {
             bool worked = false;
 
