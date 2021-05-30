@@ -19,6 +19,8 @@ Quest type | UID | Trigger format | Description
 EarnMoney | `PurrplingCat.QuestEssentials/EarnMoney` | `<int:MoneyEarningsGoal>` | Earn a specified goal of money.
 SellItem | `PurrplingCat.QuestEssentials/SellItem` | `<int:WhichItem> [<int:Amount>]` | Sell a specified item of specified amount. If the amount is not defined in trigger, then amount is 1.
 Talk | `PurrplingCat.QuestEssentials/Talk` | `<string:NPC_name>` | Talk with an NPC
+Collect | `PurrplingCat.QuestEssentials/Collect` | `<int:itemId> [<int:count>]` | Collect items (alternative to harvest quest type)
+SpecialQuest | `PurrplingCat.QuestEssentials/Special` | *none* | Multi-staged quest. See [Special Quests](docs/special-quests.md) docs for more details.
 
 ## Use Quest Essentials in your content pack
 
@@ -35,7 +37,7 @@ Create your `manifest.json` file
   "UpdateKeys": [],
   "ContentPackFor": {
     "UniqueID": "PurrplingCat.QuestFramework",
-    "MinimumVersion": "1.2.0-alpha"
+    "MinimumVersion": "1.4.0"
   },
   "Dependencies": [
     {
@@ -45,7 +47,7 @@ Create your `manifest.json` file
 }
 ```
 
-Create fle `quests.json` (see [Quest Framework docs](https://questframework.purrplingcat.com/docs/content-pack-guide.html))
+Create file `quests.json` (see [Quest Framework docs](https://questframework.purrplingcat.com/docs/content-pack-guide.html))
 
 And now you can define your quests using with custom quest types exposed by **Quest Essentials**. Here is an example:
 

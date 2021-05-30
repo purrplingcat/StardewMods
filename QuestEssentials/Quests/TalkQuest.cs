@@ -1,4 +1,6 @@
-﻿using QuestFramework.Quests;
+﻿using QuestFramework.Extensions;
+using QuestFramework.Messages;
+using QuestFramework.Quests;
 using StardewValley;
 using StardewValley.Menus;
 using System;
@@ -9,32 +11,48 @@ using System.Threading.Tasks;
 
 namespace QuestEssentials.Quests
 {
-    class TalkQuest : CustomQuest, IQuestObserver, ITriggerLoader
+    class TalkQuest : CustomQuest, IQuestInfoUpdater, ITriggerLoader
     {
         public string TalkTo { get; set; }
 
-        public bool CheckIfComplete(IQuestInfo questData, ICompletionArgs completion)
+        public override bool OnCompletionCheck(ICompletionMessage completionMessage)
         {
-            if (questData.VanillaQuest.completed.Value)
-                return false;
-
-            if (this.TalkTo != null && completion.Npc != null && completion.Npc.isVillager() && this.TalkTo == completion.Npc.Name)
+            if (completionMessage is ITalkMessage talkMessage)
             {
-                if (!string.IsNullOrEmpty(this.ReactionText))
-                {
-                    completion.Npc.CurrentDialogue.Push(new Dialogue(this.ReactionText, completion.Npc));
-                    Game1.drawDialogue(completion.Npc);
-                }
+                if (!this.IsRelevantMessage(talkMessage))
+                    return false;
 
-                if (Game1.activeClickableMenu is DialogueBox && Game1.currentSpeaker == completion.Npc)
+                if (Game1.activeClickableMenu is DialogueBox && Game1.currentSpeaker == talkMessage.Npc)
                 {
-                    questData.VanillaQuest.questComplete();
+                    this.Complete();
 
                     return true;
                 }
             }
 
             return false;
+        }
+
+        private bool IsRelevantMessage(ITalkMessage talkMessage)
+        {
+            return this.TalkTo != null && talkMessage.Npc != null && talkMessage.Npc.isVillager() && this.TalkTo == talkMessage.Npc.Name;
+        }
+
+        public override void OnAdjust(object adjustMessage)
+        {
+            if (adjustMessage is ITalkMessage talkMessage)
+            {
+                if (!this.IsRelevantMessage(talkMessage))
+                    return;
+
+                if (!string.IsNullOrEmpty(this.ReactionText))
+                {
+                    talkMessage.Npc.CurrentDialogue.Push(new Dialogue(this.ReactionText, talkMessage.Npc));
+                    Game1.drawDialogue(talkMessage.Npc);
+                }
+            }
+
+            base.OnAdjust(adjustMessage);
         }
 
         public void LoadTrigger(string triggerData)
