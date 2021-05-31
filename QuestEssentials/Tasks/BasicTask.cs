@@ -6,7 +6,7 @@ namespace QuestEssentials.Tasks
     {
         public string Trigger { get; set; }
 
-        public override bool OnCheckProgress(StoryMessage message)
+        public override bool OnCheckProgress(IStoryMessage message)
         {
             if (!this.IsCompleted() && this.Trigger == message.Trigger && this.IsWhenMatched())
             {

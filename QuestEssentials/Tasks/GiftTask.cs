@@ -30,7 +30,7 @@ namespace QuestEssentials.Tasks
             public string NpcName { get; set; }
         }
 
-        public override bool OnCheckProgress(StoryMessage message)
+        public override bool OnCheckProgress(IStoryMessage message)
         {
             if (this.IsCompleted())
                 return false;

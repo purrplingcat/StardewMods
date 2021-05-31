@@ -83,7 +83,7 @@ namespace QuestEssentials.Quests
 
         public override bool OnCompletionCheck(ICompletionMessage completionMessage)
         {
-            if (completionMessage is StoryMessage storyMessage)
+            if (completionMessage is IStoryMessage storyMessage)
             {
                 return this.CheckTasks(storyMessage);
             } 
@@ -155,7 +155,7 @@ namespace QuestEssentials.Quests
             return !this.Tasks.Any(t => t.IsRegistered() && t.IsActive() && !t.IsCompleted());
         }
 
-        private bool CheckTasks(StoryMessage storyMessage)
+        private bool CheckTasks(IStoryMessage storyMessage)
         {
             if (this.Tasks == null || !this.IsInQuestLogAndActive())
                 return false;

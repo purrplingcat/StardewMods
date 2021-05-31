@@ -150,7 +150,7 @@ namespace QuestEssentials.Tasks
         {
         }
 
-        public abstract bool OnCheckProgress(StoryMessage message);
+        public abstract bool OnCheckProgress(IStoryMessage message);
 
         public virtual bool CheckCompletion(bool playSound = true)
         {

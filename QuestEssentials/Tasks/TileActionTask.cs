@@ -23,7 +23,7 @@ namespace QuestEssentials.Tasks
             public bool ConsumeItem { get; set; }
         }
 
-        public override bool OnCheckProgress(StoryMessage message)
+        public override bool OnCheckProgress(IStoryMessage message)
         {
             if (this.IsCompleted())
                 return false;

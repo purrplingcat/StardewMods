@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QuestEssentials.Messages
 {
-    public class StoryMessage : ICompletionMessage
+    public class StoryMessage : ICompletionMessage, IStoryMessage
     {
         public StoryMessage(string name, string trigger)
         {

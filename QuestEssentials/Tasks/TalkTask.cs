@@ -36,7 +36,7 @@ namespace QuestEssentials.Tasks
             }
         }
 
-        public override bool OnCheckProgress(StoryMessage message)
+        public override bool OnCheckProgress(IStoryMessage message)
         {
             if (this.IsCompleted())
                 return false;
