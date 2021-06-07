@@ -123,9 +123,13 @@ namespace QuestEssentials.Framework
 
             if (QuestEssentialsMod.QuestApi.CheckForQuestComplete(new DeliverMessage(who, __instance, who.ActiveObject)))
             {
-                if (who.ActiveObject.Stack <= 0)
+                if (who.ActiveObject == null || who.ActiveObject.Stack <= 0)
                 {
-                    who.ActiveObject = null;
+                    if (who.ActiveObject != null)
+                    {
+                        who.ActiveObject = null;
+                    }
+
                     who.showNotCarrying();
                 }
 
