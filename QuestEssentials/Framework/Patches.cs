@@ -108,7 +108,6 @@ namespace QuestEssentials.Framework
         public static void Before_set_Money(Farmer __instance, int value)
         {
             int oldMoney = __instance._money;
-            __instance._money = value;
 
             if (value <= oldMoney)
                 return;
