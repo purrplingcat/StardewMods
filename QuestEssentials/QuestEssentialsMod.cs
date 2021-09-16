@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -33,7 +33,7 @@ namespace QuestEssentials
             helper.Events.Player.Warped += this.Player_Warped;
             helper.Events.Display.MenuChanged += this.Display_MenuChanged;
 
-            var harmony = HarmonyInstance.Create(this.ModManifest.UniqueID);
+            var harmony = new Harmony(this.ModManifest.UniqueID);
 
             harmony.Patch(
                 original: AccessTools.Method(typeof(ShopMenu), nameof(ShopMenu.receiveLeftClick)),
