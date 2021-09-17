@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
@@ -22,7 +22,7 @@ namespace CustomGiftDialogue
             Reflection = helper.Reflection;
             Config = helper.ReadConfig<CustomGiftDialogueConfig>();
 
-            var harmony = HarmonyInstance.Create(this.ModManifest.UniqueID);
+            var harmony = new Harmony(this.ModManifest.UniqueID);
 
             harmony.Patch(
                 original: AccessTools.Method(typeof(NPC), nameof(NPC.receiveGift)),
