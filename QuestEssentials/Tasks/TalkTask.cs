@@ -152,7 +152,7 @@ namespace QuestEssentials.Tasks
             }
         }
 
-        public override void Register(SpecialQuest quest)
+        public override void Register(AdventureQuest quest)
         {
             base.Register(quest);
 

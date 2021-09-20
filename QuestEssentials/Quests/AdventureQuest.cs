@@ -11,7 +11,7 @@ using QuestEssentials.Tasks;
 
 namespace QuestEssentials.Quests
 {
-    public class SpecialQuest : CustomQuest<SpecialQuest.StoryQuestState>
+    public class AdventureQuest : CustomQuest<AdventureQuest.StoryQuestState>
     {
         private bool _taskRegistrationDirty;
 
