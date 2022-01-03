@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using QuestEssentials.Messages;
+﻿using QuestEssentials.Messages;
 using System.Collections.Generic;
 
 namespace QuestEssentials.Tasks
