@@ -297,6 +297,7 @@ Give a present to an NPC villager in Stardew Valley.
   },
   "Count": 5
 }
+```
 
 ### Slay
 
